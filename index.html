@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rehearsio — everything on the music stand, in one app</title>
+    <meta
+      name="description"
+      content="Sheet music, pencil marks, a metronome, a tuner, a recorder and a practice log, inside one rehearsal session. Your scores, marks and recordings stay on your phone."
+    />
+    <meta name="theme-color" content="#191817" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Set before first paint so a dark-theme reader never sees a white flash.
+         Inline on purpose: an external file would arrive after the paint. -->
+    <script>
+      try {
+        var t = localStorage.getItem('rehearsio-theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="index.html" aria-label="Rehearsio — home">
+          <svg class="brand__mark" viewBox="0 0 55 72" fill="currentColor" aria-hidden="true">
+            <rect x="0" y="0" width="15" height="72" rx="3" />
+            <rect x="22" y="0" width="6" height="72" rx="3" />
+            <circle cx="48" cy="24" r="7" />
+            <circle cx="48" cy="48" r="7" />
+          </svg>
+          <span class="brand__name">Rehearsio</span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+          <a class="nav__link nav__link--wide" href="#features">Features</a>
+          <a class="nav__link" href="privacy.html">Privacy</a>
+          <a class="nav__link" href="terms.html">Terms</a>
+        </nav>
+
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+          <svg
+            class="icon-sun"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+            />
+          </svg>
+          <svg
+            class="icon-moon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ==================================================================
+           Hero. The tile beside it is the real app icon, drawn from the same
+           four shapes as tools/build-brand-assets — not a picture of one.
+           =================================================================== -->
+      <section class="hero">
+        <div class="wrap hero__grid">
+          <div class="hero__copy">
+            <p class="eyebrow">For musicians · iOS and Android</p>
+            <h1 class="display">Everything on the stand, in one app.</h1>
+            <p class="lead">
+              Sheet music, pencil marks, a metronome, a tuner, a recorder and a practice log — all
+              inside one rehearsal session, so nothing has to be written down twice.
+            </p>
+            <div class="hero__actions">
+              <span class="badge">
+                <img
+                  class="badge__light"
+                  src="assets/badges/app-store.svg"
+                  alt="Download on the App Store"
+                  width="120"
+                  height="40"
+                />
+                <img
+                  class="badge__dark"
+                  src="assets/badges/app-store-white.svg"
+                  alt="Download on the App Store"
+                  width="120"
+                  height="40"
+                />
+              </span>
+              <span class="badge badge--google">
+                <img
+                  src="assets/badges/google-play.png"
+                  alt="Get it on Google Play"
+                  width="646"
+                  height="250"
+                />
+              </span>
+            </div>
+            <p class="caption muted">
+              Not released yet. The stores open when the first version ships.
+            </p>
+          </div>
+
+          <div class="hero__tile">
+            <div class="tile">
+              <svg
+                viewBox="0 0 55 72"
+                fill="currentColor"
+                role="img"
+                aria-label="The Rehearsio app icon"
+              >
+                <rect x="0" y="0" width="15" height="72" rx="3" />
+                <rect x="22" y="0" width="6" height="72" rx="3" />
+                <circle cx="48" cy="24" r="7" />
+                <circle cx="48" cy="48" r="7" />
+              </svg>
+            </div>
+            <span class="chip"><span class="chip__dot"></span>In development</span>
+          </div>
+        </div>
+      </section>
+
+      <hr class="rule" />
+
+      <!-- ==================================================================
+           The one idea. One claim, alone, then the scenario in four beats.
+           =================================================================== -->
+      <section class="section">
+        <div class="wrap">
+          <p class="eyebrow" style="margin-bottom: var(--space-lg)">The idea</p>
+          <h2 class="statement">
+            Four apps on a music stand is four apps nobody keeps a record in.
+          </h2>
+          <p class="statement__note">
+            Rehearsio is built around one thing: the practice session. You start it, and everything
+            else happens inside — the score is open, the metronome is under your hand, the recorder
+            is running, the time counts itself. What's left afterwards is a record, not a memory.
+          </p>
+
+          <ol class="steps">
+            <li class="step">
+              <span class="step__shot"
+                ><img
+                  src="assets/shots/step-start.png"
+                  alt="The strip of days and today’s tasks on the home screen"
+                  loading="lazy"
+                  width="900"
+                  height="562"
+              /></span>
+              <h3>Start</h3>
+              <p>One press. The clock runs and the session is open behind everything else.</p>
+            </li>
+            <li class="step">
+              <span class="step__shot"
+                ><img
+                  src="assets/shots/step-play.png"
+                  alt="The session stopwatch running"
+                  loading="lazy"
+                  width="900"
+                  height="562"
+              /></span>
+              <h3>Play</h3>
+              <p>Score on screen, metronome a tap away, the recording already going.</p>
+            </li>
+            <li class="step">
+              <span class="step__shot"
+                ><img
+                  src="assets/shots/step-mark.jpg"
+                  alt="Bowings, a highlighted ritardando and a written reminder, pencilled onto a score"
+                  loading="lazy"
+                  width="900"
+                  height="562"
+              /></span>
+              <h3>Mark</h3>
+              <p>Pencil on the page, a note to yourself, a task for tomorrow.</p>
+            </li>
+            <li class="step">
+              <span class="step__shot"
+                ><img
+                  src="assets/shots/step-look.png"
+                  alt="A year of practice as a calendar"
+                  loading="lazy"
+                  width="900"
+                  height="562"
+              /></span>
+              <h3>Look back</h3>
+              <p>How long, on what, at what tempo — and how it actually sounded.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           What is in the first version. Nine cards, one line each.
+           =================================================================== -->
+      <section class="section section--sunken" id="features">
+        <div class="wrap">
+          <div class="section__head">
+            <p class="eyebrow">What's inside</p>
+            <h2 class="headline">Nine tools that already know about each other.</h2>
+          </div>
+
+          <ul class="features">
+            <li class="feature">
+              <svg
+                class="feature__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 7v14" />
+                <path
+                  d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
+                />
+              </svg>
+              <h3>Sheet music library</h3>
+              <p>
+                Bring in PDFs from Files, Mail or anywhere that can share. They open where you left
+                off.
+              </p>
+            </li>
+
+            <li class="feature">
+              <svg
+                class="feature__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21.17 6.81a1 1 0 0 0-3.98-3.99L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.63l4.35-1.33a2 2 0 0 0 .83-.5z"
+                />
+                <path d="m15 5 4 4" />
+              </svg>
+              <h3>Pencil marks</h3>
+              <p>
+                Six pencils and a highlighter, straight onto the page. Fingerings, breaths, the bar
+                you keep missing.
+              </p>
+            </li>
+
+            <li class="feature">
+              <svg
+                class="feature__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M9.5 3h5l4.5 18H5z" />
+                <path d="M6.5 15h11" />
+                <path d="M12 15 16 6" />
+              </svg>
+              <h3>Metronome</h3>
+              <p>
+                Time signatures, accents, subdivisions. It keeps its beat while the rest of the app
+                is busy.
+              </p>
+            </li>
+
+            <li class="feature">
+              <svg
+                class="feature__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M2 13a2 2 0 0 0 2-2V7a2 2 0 0 1 4 0v13a2 2 0 0 0 4 0V4a2 2 0 0 1 4 0v13a2 2 0 0 0 4 0v-4a2 2 0 0 1 2-2"
+                />
+              </svg>
+              <h3>Tuner</h3>
+              <p>Note, cents and a needle that holds still. Works for anything with a pitch.</p>
+            </li>
+
+            <li class="feature">
+              <svg
+                class="feature__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="9" y="2" width="6" height="13" rx="3" />
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                <path d="M12 19v3" />
+              </svg>
+              <h3>Recording</h3>
+              <p>
+                Record the run-through and hear it back. The recording stays on the phone unless you
+                send it somewhere.
+              </p>
+            </li>
+
+            <li class="feature">
+              <svg
+                class="feature__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+                <path d="M16 13H8M16 17H8M10 9H8" />
+              </svg>
+              <h3>Notes</h3>
+              <p>
+                What the teacher said, what to fix, what to ask next time. Searchable, tagged, tied
+                to the piece.
+              </p>
+            </li>
+
+            <li class="feature">
+              <svg
+                class="feature__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="14" r="8" />
+                <path d="M10 2h4" />
+                <path d="M12 14V10" />
+              </svg>
+              <h3>Stopwatch and timer</h3>
+              <p>
+                How long you actually played, split by what you played. Counted for you, not by you.
+              </p>
+            </li>
+
+            <li class="feature">
+              <svg
+                class="feature__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+                <path d="M8 17v-3M13 17V5M18 17V9" />
+              </svg>
+              <h3>Progress</h3>
+              <p>
+                Days in a row, minutes per piece, tempo over weeks. A calendar you can read at a
+                glance.
+              </p>
+            </li>
+
+            <li class="feature">
+              <svg
+                class="feature__icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="2" y="3" width="20" height="5" rx="1" />
+                <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" />
+                <path d="M10 12h4" />
+              </svg>
+              <h3>Backup you own</h3>
+              <p>
+                Your whole library in one file — scores, marks, recordings, history. Put it wherever
+                you keep things.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           Screenshot slots. Reserved, not faked: the pictures land at S13.11
+           and drop into these frames without the layout changing.
+           =================================================================== -->
+      <section class="section">
+        <div class="wrap">
+          <div class="section__head">
+            <p class="eyebrow">The app</p>
+            <h2 class="headline">Built to be read from a music stand.</h2>
+            <p class="body muted">
+              Big figures, warm paper-coloured surfaces, and no colour of its own — so the only
+              bright things on screen are the marks you made.
+            </p>
+          </div>
+
+          <div class="screens-bleed">
+            <div class="screens" role="group" aria-label="Four screens of Rehearsio on a tablet">
+              <figure class="screen">
+                <div class="device">
+                  <div class="device__screen">
+                    <img
+                      src="assets/shots/home.png"
+                      alt="The Rehearsio home screen: a streak, the week’s days, tasks and notes"
+                      loading="lazy"
+                      width="834"
+                      height="1210"
+                    />
+                  </div>
+                </div>
+              </figure>
+              <figure class="screen">
+                <div class="device">
+                  <div class="device__screen">
+                    <img
+                      src="assets/shots/score.jpg"
+                      alt="A page of Gara Garayev's 5 Pieces open in Rehearsio, marked up in pencil and highlighter"
+                      loading="lazy"
+                      width="834"
+                      height="1210"
+                    />
+                  </div>
+                </div>
+              </figure>
+              <figure class="screen">
+                <div class="device">
+                  <div class="device__screen">
+                    <img
+                      src="assets/shots/library.jpg"
+                      alt="The Rehearsio library: Bach, Schubert, Beethoven and Tchaikovsky as their published covers, with tags and programmes"
+                      loading="lazy"
+                      width="834"
+                      height="1210"
+                    />
+                  </div>
+                </div>
+              </figure>
+              <figure class="screen">
+                <div class="device">
+                  <div class="device__screen">
+                    <img
+                      src="assets/shots/stats.png"
+                      alt="The statistics screen: hours practised and a calendar of activity"
+                      loading="lazy"
+                      width="834"
+                      height="1210"
+                    />
+                  </div>
+                </div>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           Support. This anchor is the Support URL the stores ask for.
+           =================================================================== -->
+      <section class="section" id="support">
+        <div class="wrap">
+          <div class="section__head">
+            <p class="eyebrow">Support</p>
+            <h2 class="headline">Something broken, or something missing?</h2>
+            <p class="body muted">
+              Write to us. A person reads it, and a bug report from someone who plays is worth more
+              than a hundred that aren't.
+            </p>
+          </div>
+          <!-- TODO S13.3: the address and the domain are not decided yet. -->
+          <a class="btn btn--primary" href="mailto:support@rehearsio.app">support@rehearsio.app</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="site-footer__inner">
+          <a class="brand" href="index.html" aria-label="Rehearsio — home">
+            <svg class="brand__mark" viewBox="0 0 55 72" fill="currentColor" aria-hidden="true">
+              <rect x="0" y="0" width="15" height="72" rx="3" />
+              <rect x="22" y="0" width="6" height="72" rx="3" />
+              <circle cx="48" cy="24" r="7" />
+              <circle cx="48" cy="48" r="7" />
+            </svg>
+            <span class="brand__name">Rehearsio</span>
+          </a>
+
+          <nav aria-label="Footer">
+            <a href="#features">Features</a>
+            <a href="#support">Support</a>
+            <a href="privacy.html">Privacy policy</a>
+            <a href="terms.html">Terms of use</a>
+            <a href="impressum.html">Impressum</a>
+          </nav>
+        </div>
+        <p class="site-footer__legal">© 2026 Mammad Mahmudzade. Made for people who practise.</p>
+      </div>
+    </footer>
+
+    <script src="site.js"></script>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+<!-- The reprise mark. Field 55 × 72, the same four shapes and the same numbers
+     as tools/build-brand-assets/index.mjs, which draws the app icon. Never
+     redraw this by hand: a hand-nudged mark is a mark nobody can reproduce. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 72" fill="currentColor" role="img" aria-label="Rehearsio">
+  <rect x="0" y="0" width="15" height="72" rx="3" />
+  <rect x="22" y="0" width="6" height="72" rx="3" />
+  <circle cx="48" cy="24" r="7" />
+  <circle cx="48" cy="48" r="7" />
+</svg>

@@ -1,0 +1,11 @@
+<!-- The small geometry: below 24 px of mark height the thin bar comes out 2 px
+     wide and breaks up, so it is dropped and the dots grow. Field 41 × 72.
+     Same rule as the PNG favicon in tools/build-brand-assets/index.mjs. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-9 -9 59 90">
+  <rect x="-9" y="-9" width="59" height="90" rx="10" fill="#191817" />
+  <g fill="#EDEBE8">
+    <rect x="0" y="0" width="15" height="72" rx="3" />
+    <circle cx="33" cy="24" r="8" />
+    <circle cx="33" cy="48" r="8" />
+  </g>
+</svg>

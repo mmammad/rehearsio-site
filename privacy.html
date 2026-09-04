@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy policy — Rehearsio</title>
+    <meta
+      name="description"
+      content="Rehearsio has no accounts and no server. Your scores, marks, notes and recordings stay on your device; only crash reports and anonymous feature counts are sent."
+    />
+    <meta name="theme-color" content="#191817" />
+    <!-- Kept out of search results while any ⟨blank⟩ remains on the page and
+         until a lawyer has read it. Delete this line when both are true. -->
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Set before first paint so a dark-theme reader never sees a white flash. -->
+    <script>
+      try {
+        var t = localStorage.getItem('rehearsio-theme');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="index.html" aria-label="Rehearsio — home">
+          <svg class="brand__mark" viewBox="0 0 55 72" fill="currentColor" aria-hidden="true">
+            <rect x="0" y="0" width="15" height="72" rx="3" />
+            <rect x="22" y="0" width="6" height="72" rx="3" />
+            <circle cx="48" cy="24" r="7" />
+            <circle cx="48" cy="48" r="7" />
+          </svg>
+          <span class="brand__name">Rehearsio</span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+          <a class="nav__link nav__link--wide" href="index.html#features">Features</a>
+          <a class="nav__link" href="privacy.html" aria-current="page">Privacy</a>
+          <a class="nav__link" href="terms.html">Terms</a>
+        </nav>
+
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+          <svg
+            class="icon-sun"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+            />
+          </svg>
+          <svg
+            class="icon-moon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="main" class="doc">
+      <div class="wrap">
+        <div class="doc__head">
+          <p class="eyebrow">Legal</p>
+          <h1 class="title">Privacy policy</h1>
+          <div class="doc__meta">
+            <span class="chip"><span class="chip__dot"></span>Draft — not yet in force</span>
+            <span class="caption muted">Last updated — pending</span>
+          </div>
+        </div>
+
+        <div class="doc__grid">
+          <nav class="toc" aria-label="On this page">
+            <p class="toc__title caption">On this page</p>
+            <ol>
+              <li><a href="#in-short">In short</a></li>
+              <li><a href="#who-we-are">Who we are</a></li>
+              <li><a href="#on-your-device">What stays on your device</a></li>
+              <li><a href="#what-we-send">What the app sends</a></li>
+              <li><a href="#crash-reports">Crash reports</a></li>
+              <li><a href="#usage">Which features get used</a></li>
+              <li><a href="#permissions">Permissions the app asks for</a></li>
+              <li><a href="#sharing">When you send something yourself</a></li>
+              <li><a href="#children">Children</a></li>
+              <li><a href="#rights">Your rights</a></li>
+              <li><a href="#changes">Changes to this policy</a></li>
+              <li><a href="#contact">How to reach us</a></li>
+            </ol>
+          </nav>
+
+          <article class="prose">
+            <div class="notice">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v5M12 16h.01" />
+              </svg>
+              <p>
+                <strong>Draft. Written, but not yet in force.</strong> Everything on this page is
+                settled and describes what the app really does. It takes effect when it is published
+                with a date on it, and it has not been read by a lawyer.
+              </p>
+            </div>
+
+            <div class="summary">
+              <h2 id="in-short">In short</h2>
+              <p>
+                Rehearsio has no accounts and no server of ours. Your sheet music, your pencil
+                marks, your notes, your recordings and your practice history are files on your own
+                device. We cannot see them, and we could not hand them to anyone who asked.
+              </p>
+              <p>
+                Two things travel, and both are about the app rather than about you: a report when
+                the app crashes, and a count of which features get opened. Neither carries your
+                name, your files, or anything you wrote or played.
+              </p>
+            </div>
+
+            <section>
+              <h2 id="who-we-are">Who we are</h2>
+              <p>
+                Rehearsio is made by Mammad Mahmudzade in Germany — one person, not a company. In
+                the language of data-protection law that person is the controller of the little we
+                receive, and this page is the notice that law asks us to give you. The full postal
+                address is in the <a href="impressum.html">Impressum</a>.
+              </p>
+              <p>
+                For anything on this page, write to
+                <a href="mailto:rehearsio@gmail.com">rehearsio@gmail.com</a>.
+              </p>
+            </section>
+
+            <section>
+              <h2 id="on-your-device">What stays on your device</h2>
+              <p>Everything you make in Rehearsio is stored on the device you made it on:</p>
+              <ul>
+                <li>
+                  the PDF scores you bring in — copied into the app, so they keep working when the
+                  original moves or is deleted
+                </li>
+                <li>pencil and highlighter marks, and any text you write on a page</li>
+                <li>notes, tasks and the tags on them</li>
+                <li>audio recordings of your practice, and the waveforms drawn from them</li>
+                <li>
+                  your practice history — sessions, times, tempos, pieces, and the calendar and
+                  statistics built from them
+                </li>
+                <li>the photograph you chose as a profile picture, if you chose one</li>
+                <li>your settings</li>
+              </ul>
+              <p>
+                None of it is sent to us. There is no account to sign into and no copy of your
+                library anywhere except on your device — and wherever you have put a copy yourself.
+              </p>
+              <div class="aside">
+                <p>
+                  <strong>The other side of that promise:</strong> if the device is lost, wiped or
+                  replaced, the library goes with it. We cannot restore it, because we never had it.
+                </p>
+                <p>
+                  The app can put your whole library into a single file for you to keep somewhere
+                  else. It is worth doing before you need it.
+                </p>
+              </div>
+            </section>
+
+            <section>
+              <h2 id="what-we-send">What the app sends</h2>
+              <p>
+                Two things. This is the complete list, and it is short because the app has nowhere
+                else to send anything: it has no account, no sync and no server holding your work.
+              </p>
+              <ul>
+                <li>
+                  <strong>A report when the app crashes</strong>, so the fault can be found and
+                  fixed.
+                </li>
+                <li>
+                  <strong>A count of which features are opened</strong>, so we know which parts of
+                  the app the next month of work should go to.
+                </li>
+              </ul>
+              <p>
+                Both are described in full below. Neither contains your files, your marks, your
+                notes, your recordings, the names of your pieces, or any text you have typed.
+              </p>
+            </section>
+
+            <section>
+              <h2 id="crash-reports">Crash reports</h2>
+              <p>
+                When Rehearsio stops unexpectedly, it sends a report describing the failure: which
+                part of the code stopped and how it got there, the version of the app, the model of
+                the device, and the version of the operating system it runs.
+              </p>
+              <p>
+                It carries no name, no email address and no advertising identifier, and it contains
+                none of your content — not a page, not a mark, not a note, not a second of audio.
+              </p>
+              <p>
+                The reports are handled for us by Sentry, which processes them on our instructions
+                and for no other purpose. They are kept for 90 days and then deleted. Where the law
+                asks us to name a basis for this, it is our legitimate interest in an app that does
+                not crash.
+              </p>
+              <p>
+                Sentry stores them on servers in the European Union, so a report does not leave it.
+              </p>
+            </section>
+
+            <section>
+              <h2 id="usage">Which features get used</h2>
+              <p>
+                The app counts how often each of its parts is opened — the tuner, the metronome, the
+                recorder, the library, the practice tracker, and so on.
+              </p>
+              <p>
+                What is counted is <strong>that a feature was used</strong>. What was inside it
+                never is: not the piece, not the tempo, not the words of a note, not a second of
+                audio. The counts carry a random identifier belonging to the installation rather
+                than to a person, and a fresh one is made if you reinstall the app.
+              </p>
+              <p>
+                The counts are collected for us by Aptabase, on our instructions and for no other
+                purpose, on servers in the European Union. They are kept for 12 months — long enough
+                to see whether a part of the app is used more this winter than last — and then
+                deleted.
+              </p>
+              <p>
+                One switch in the app’s settings turns both of these off — the crash reports as well
+                as the counts. Nothing else about the app changes when you do.
+              </p>
+            </section>
+
+            <section>
+              <h2 id="permissions">Permissions the app asks for</h2>
+              <p>
+                Three, each asked at the moment it is first needed rather than when you open the app
+                for the first time.
+              </p>
+              <ul>
+                <li>
+                  <strong>Microphone</strong> — to record your practice and to hear your instrument
+                  for the tuner. The tuner keeps nothing: it listens and shows a pitch. Recordings
+                  become files on your device.
+                </li>
+                <li>
+                  <strong>Photos</strong> — only when you pick a profile picture. The one photograph
+                  you choose is copied into the app; nothing else in your library is read. Rehearsio
+                  never asks for the camera.
+                </li>
+                <li>
+                  <strong>Notifications</strong> — only when you set a reminder. Reminders are
+                  scheduled and shown by your own device. There is no push service, no token and no
+                  server involved.
+                </li>
+              </ul>
+              <p>
+                Refusing any of them leaves the rest of the app working, and you can change your
+                mind later in your device settings.
+              </p>
+            </section>
+
+            <section>
+              <h2 id="sharing">When you send something yourself</h2>
+              <p>
+                Rehearsio can hand a file to your device’s own share sheet: a recording for a
+                teacher, a marked-up copy of a score, an export of your statistics, or the
+                single-file copy of your whole library.
+              </p>
+              <p>
+                The app never does this on its own — it happens when you ask for it, and the app’s
+                part ends the moment the share sheet opens. From there the file is in the hands of
+                whatever you send it to: a messaging app, a cloud drive, an email. What that service
+                does with it is governed by its own terms, not by this page.
+              </p>
+            </section>
+
+            <section>
+              <h2 id="children">Children</h2>
+              <p>
+                Rehearsio is for anyone learning an instrument, and it is built so that using it
+                costs you nothing personal: there is no account, no name, no email address and no
+                sign-in of any kind.
+              </p>
+              <p>
+                We do not knowingly collect personal information from anyone, of any age. If you are
+                a parent or teacher and something on this page worries you, write to us at
+                <a href="mailto:rehearsio@gmail.com">rehearsio@gmail.com</a>.
+              </p>
+            </section>
+
+            <section>
+              <h2 id="rights">Your rights</h2>
+              <p>
+                Depending on where you live, the law may give you the right to see what a company
+                holds about you, to correct it, to have it deleted, or to object to its use.
+              </p>
+              <p>
+                The honest answer in our case is that we hold nothing that identifies you.
+                Everything of yours is on your device, and the two things we receive carry no name
+                and no way back to a person. There is nothing for us to look up and nothing to send
+                you.
+              </p>
+              <p>What you can do:</p>
+              <ul>
+                <li>
+                  <strong>Delete everything you have made</strong> — delete the app. That removes
+                  the library from the device. Copies you saved elsewhere are yours to delete too;
+                  we cannot reach them.
+                </li>
+                <li>
+                  <strong>Stop what gets sent</strong> — one switch in the app’s settings, and
+                  neither the crash reports nor the counts leave again.
+                </li>
+                <li>
+                  <strong>Ask us anything</strong> — write to
+                  <a href="mailto:rehearsio@gmail.com">rehearsio@gmail.com</a> and a person will
+                  answer.
+                </li>
+              </ul>
+              <p>
+                If you believe we have handled this badly, you may also complain to the
+                data-protection authority where you live.
+              </p>
+            </section>
+
+            <section>
+              <h2 id="changes">Changes to this policy</h2>
+              <p>
+                If what the app sends ever changes, this page changes before the version that does
+                it is released, and the date at the top changes with it.
+              </p>
+              <p>
+                A change that means the app starts sending something new will be said inside the app
+                as well as here. We will not quietly widen this list and leave you to notice.
+              </p>
+            </section>
+
+            <section>
+              <h2 id="contact">How to reach us</h2>
+              <p>
+                Write to <a href="mailto:rehearsio@gmail.com">rehearsio@gmail.com</a>. A person
+                reads it — there is only one.
+              </p>
+              <p>By post: the address in the <a href="impressum.html">Impressum</a>.</p>
+            </section>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="site-footer__inner">
+          <a class="brand" href="index.html" aria-label="Rehearsio — home">
+            <svg class="brand__mark" viewBox="0 0 55 72" fill="currentColor" aria-hidden="true">
+              <rect x="0" y="0" width="15" height="72" rx="3" />
+              <rect x="22" y="0" width="6" height="72" rx="3" />
+              <circle cx="48" cy="24" r="7" />
+              <circle cx="48" cy="48" r="7" />
+            </svg>
+            <span class="brand__name">Rehearsio</span>
+          </a>
+
+          <nav aria-label="Footer">
+            <a href="index.html#features">Features</a>
+            <a href="index.html#support">Support</a>
+            <a href="privacy.html">Privacy policy</a>
+            <a href="terms.html">Terms of use</a>
+            <a href="impressum.html">Impressum</a>
+          </nav>
+        </div>
+        <p class="site-footer__legal">© 2026 Mammad Mahmudzade. Made for people who practise.</p>
+      </div>
+    </footer>
+
+    <script src="site.js"></script>
+  </body>
+</html>
