@@ -1,8 +1,19 @@
-<!-- The small geometry: below 24 px of mark height the thin bar comes out 2 px
-     wide and breaks up, so it is dropped and the dots grow. Field 41 × 72.
-     Same rule as the PNG favicon in tools/build-brand-assets/index.mjs. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-9 -9 59 90">
-  <rect x="-9" y="-9" width="59" height="90" rx="10" fill="#191817" />
+<!-- The browser tab, and it is square because a tab icon is drawn into a square
+     slot: a taller-than-wide field is letterboxed by the browser, which shrinks
+     the mark and leaves it floating.
+
+     The numbers are the app icon's, not new ones (tools/build-brand-assets):
+     the small geometry — thin bar dropped, dots grown, field 41 × 72, because
+     below 24 px of mark height the thin bar comes out 2 px wide and breaks up —
+     set to **64 % of the side** and centred, which is what `favicon.png` does at
+     48 px. Hence the field: 72 / 0.64 = 112.5 a side, the mark inset by
+     (112.5 − 41) / 2 = 35.75 across and (112.5 − 72) / 2 = 20.25 down.
+
+     The rounding is the one thing here that is the web's and not the icon's —
+     the PNG ships square because iOS and Android mask it themselves. Kept at
+     the same fraction of the side it had before. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-35.75 -20.25 112.5 112.5">
+  <rect x="-35.75" y="-20.25" width="112.5" height="112.5" rx="19" fill="#191817" />
   <g fill="#EDEBE8">
     <rect x="0" y="0" width="15" height="72" rx="3" />
     <circle cx="33" cy="24" r="8" />
