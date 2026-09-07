@@ -1157,37 +1157,6 @@ a {
   background: var(--border-strong);
 }
 
-/* The draft notice. It is loud on purpose: a placeholder that reads like a
-   policy is worse than no page at all. */
-.notice {
-  display: flex;
-  gap: var(--space-md);
-  padding: var(--space-lg);
-  border-radius: var(--radius-md);
-  background: var(--bg-sunken);
-  border: 1px solid var(--border-default);
-  margin-bottom: var(--space-xxl);
-}
-
-.notice svg {
-  width: 20px;
-  height: 20px;
-  flex: none;
-  color: var(--text-muted);
-  margin-top: 3px;
-}
-
-.notice p {
-  font-size: var(--size-label);
-  line-height: 22px;
-  color: var(--text-secondary);
-}
-
-.notice strong {
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
 /* Long-form text needs three things the landing page never asked for: emphasis
    that reads as emphasis, links that look like links inside a paragraph, and a
    way to mark the handful of facts nobody has decided yet. */
