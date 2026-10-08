@@ -3,31 +3,58 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Rehearsio — everything on the music stand, in one app</title>
+    <title>Rehearsio — your practice, all in one place</title>
     <meta
       name="description"
-      content="Sheet music, pencil marks, a metronome, a tuner, a recorder and a practice log, inside one rehearsal session. Your scores, marks and recordings stay on your phone."
+      content="A practice app for musicians: sheet music, pencil marks, a metronome, a tuner, a recorder and a practice log, together in one session. Free on the App Store and Google Play."
     />
-    <meta name="theme-color" content="#191817" />
-    <!-- Kept out of search results until the first release: the store badges may
-         only be shown for an app that ships, and the pages point at stores that
-         have nothing in them yet. Delete on release day (S13.15) — the policy
-         and the terms themselves are in force from the day they went up. -->
-    <meta name="robots" content="noindex" />
+    <link rel="canonical" href="https://rehearsio.com/" />
+    <meta name="theme-color" content="#f3f2ef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#191817" media="(prefers-color-scheme: dark)" />
+
+    <!-- Safari on an iPhone or iPad offers the app in a banner of its own above
+         the page. The number is the App Store record (eas.json, ascAppId). -->
+    <meta name="apple-itunes-app" content="app-id=6809843721" />
+
+    <!-- What a shared link shows: the top of the owner's launch card. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rehearsio.com/" />
+    <meta property="og:site_name" content="Rehearsio" />
+    <meta property="og:title" content="Rehearsio — your practice, all in one place" />
+    <meta
+      property="og:description"
+      content="Sheet music, pencil marks, a metronome, a tuner, a recorder and a practice log in one session. Now on the App Store and Google Play."
+    />
+    <meta property="og:image" content="https://rehearsio.com/assets/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="628" />
+    <meta property="og:image:alt" content="Rehearsio — now on the App Store and Google Play" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="assets/media/layers.css" />
+    <link rel="preload" as="image" href="assets/media/violin-girl.webp" fetchpriority="high" />
 
-    <!-- Set before first paint so a dark-theme reader never sees a white flash.
-         Inline on purpose: an external file would arrive after the paint. -->
+    <!-- Set before first paint: the theme, so a dark-theme reader never sees a
+         white flash, and the `js` class the entrance animations wait behind.
+         If home.js never arrives the class is taken away again, and the page
+         shows itself still — a hidden page is worse than a page that does not
+         move. Inline on purpose: an external file would arrive after the paint. -->
     <script>
       try {
         var t = localStorage.getItem('rehearsio-theme');
         if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
       } catch (e) {}
+      document.documentElement.classList.add('js');
+      setTimeout(function () {
+        if (!window.rehearsioHome) document.documentElement.classList.remove('js');
+      }, 4000);
     </script>
   </head>
 
-  <body>
+  <body class="home">
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header">
@@ -43,9 +70,9 @@
         </a>
 
         <nav class="nav" aria-label="Primary">
+          <a class="nav__link nav__link--wide" href="#story">Story</a>
           <a class="nav__link nav__link--wide" href="#features">Features</a>
-          <a class="nav__link" href="privacy.html">Privacy</a>
-          <a class="nav__link" href="terms.html">Terms</a>
+          <a class="nav__link nav__link--wide" href="#support">Support</a>
         </nav>
 
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
@@ -81,25 +108,49 @@
             <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
           </svg>
         </button>
+
+        <!-- Goes straight to the right store on a phone; on a computer it
+             scrolls to the two badges at the end. home.js decides which. -->
+        <a class="header-cta" href="#download" data-store-link data-shown="false">Get the app</a>
       </div>
+      <div class="read-progress" aria-hidden="true"><span></span></div>
     </header>
 
     <main id="main">
       <!-- ==================================================================
-           Hero. The tile beside it is the real app icon, drawn from the same
-           four shapes as tools/build-brand-assets — not a picture of one.
+           Hero. The drawing is the owner's, cut into layers by
+           tools/build-site-media so each object around her can move on its
+           own; laid together they are the original picture.
            =================================================================== -->
-      <section class="hero">
+      <section class="hero" aria-labelledby="hero-title" data-hero data-scene-host>
         <div class="wrap hero__grid">
           <div class="hero__copy">
-            <p class="eyebrow">For musicians · iOS and Android</p>
-            <h1 class="display">Everything on the stand, in one app.</h1>
-            <p class="lead">
-              Sheet music, pencil marks, a metronome, a tuner, a recorder and a practice log — all
-              inside one rehearsal session, so nothing has to be written down twice.
+            <a class="launch" href="#download" data-enter style="--i: 0">
+              <span class="launch__dot" aria-hidden="true"></span>
+              <span>Now on the App Store and Google Play</span>
+            </a>
+
+            <h1 class="hero__title" id="hero-title">
+              <span class="hero__line"><span>Your practice.</span></span>
+              <span class="hero__line"
+                ><span
+                  >All in one
+                  <span class="scribble"
+                    >place.<svg class="scribble__line" viewBox="0 0 220 24" aria-hidden="true">
+                      <path
+                        pathLength="1"
+                        d="M4 15c38-7 92-11 140-9 26 1 48 3 72 7"
+                      /></svg></span></span
+              ></span>
+            </h1>
+
+            <p class="hero__lead" data-enter style="--i: 1">
+              Sheet music, pencil marks, a metronome, a tuner, a recorder and a practice log —
+              together in one session on the music stand.
             </p>
-            <div class="hero__actions">
-              <span class="badge">
+
+            <div class="stores" data-enter style="--i: 2" data-hero-stores>
+              <a class="badge" href="https://apps.apple.com/app/rehearsio/id6809843721">
                 <img
                   class="badge__light"
                   src="assets/badges/app-store.svg"
@@ -114,124 +165,1195 @@
                   width="120"
                   height="40"
                 />
-              </span>
-              <span class="badge badge--google">
+              </a>
+              <a
+                class="badge badge--google"
+                href="https://play.google.com/store/apps/details?id=com.rehearsio.app"
+              >
                 <img
                   src="assets/badges/google-play.png"
                   alt="Get it on Google Play"
                   width="646"
                   height="250"
                 />
-              </span>
+              </a>
             </div>
-            <p class="caption muted">
-              Not released yet. The stores open when the first version ships.
+
+            <p class="hero__meta" data-enter style="--i: 3">
+              Free <span aria-hidden="true">·</span> No account
+              <span aria-hidden="true">·</span> iPhone, iPad and Android
             </p>
           </div>
 
-          <div class="hero__tile">
-            <div class="tile">
-              <svg
-                viewBox="0 0 55 72"
-                fill="currentColor"
-                role="img"
-                aria-label="The Rehearsio app icon"
-              >
-                <rect x="0" y="0" width="15" height="72" rx="3" />
-                <rect x="22" y="0" width="6" height="72" rx="3" />
-                <circle cx="48" cy="24" r="7" />
-                <circle cx="48" cy="48" r="7" />
-              </svg>
+          <div class="hero__art">
+            <div class="paper paper--scene">
+              <div class="scene scene--violin" data-scene>
+                <img
+                  class="layer layer--girl"
+                  src="assets/media/violin-girl.webp"
+                  width="859"
+                  height="1648"
+                  alt="A drawing of a girl in a striped jumper playing the violin. In front of her a music stand holds a tablet showing the Rehearsio mark."
+                  fetchpriority="high"
+                />
+                <span
+                  class="layer layer--tuner"
+                  data-depth="1.4"
+                  style="--i: 0; --float: 7s; --delay: -1s"
+                  ><img src="assets/media/violin-tuner.webp" width="262" height="264" alt=""
+                /></span>
+                <span
+                  class="layer layer--metronome"
+                  data-depth="1.1"
+                  style="--i: 1; --float: 8.5s; --delay: -4s"
+                  ><img src="assets/media/violin-metronome.webp" width="270" height="262" alt=""
+                /></span>
+                <span
+                  class="layer layer--calendar"
+                  data-depth="1.6"
+                  style="--i: 2; --float: 6.5s; --delay: -2.5s"
+                  ><img src="assets/media/violin-calendar.webp" width="256" height="230" alt=""
+                /></span>
+                <span
+                  class="layer layer--notes"
+                  data-depth="1.8"
+                  style="--i: 3; --float: 7.5s; --delay: -5s"
+                  ><img src="assets/media/violin-notes.webp" width="212" height="210" alt=""
+                /></span>
+                <span
+                  class="layer layer--stopwatch"
+                  data-depth="1.3"
+                  style="--i: 4; --float: 6s; --delay: -3s"
+                  ><img src="assets/media/violin-stopwatch.webp" width="181" height="225" alt=""
+                /></span>
+                <span
+                  class="layer layer--note-1"
+                  data-depth="2.4"
+                  style="--i: 5; --float: 4.5s; --delay: -1s; --amp: 12px"
+                  ><img src="assets/media/violin-note-1.webp" width="59" height="75" alt=""
+                /></span>
+                <span
+                  class="layer layer--note-2"
+                  data-depth="2.8"
+                  style="--i: 6; --float: 5s; --delay: -2s; --amp: 14px"
+                  ><img src="assets/media/violin-note-2.webp" width="59" height="67" alt=""
+                /></span>
+                <span
+                  class="layer layer--note-3"
+                  data-depth="2.2"
+                  style="--i: 7; --float: 5.5s; --delay: -3s; --amp: 12px"
+                  ><img src="assets/media/violin-note-3.webp" width="59" height="76" alt=""
+                /></span>
+                <span
+                  class="layer layer--note-4"
+                  data-depth="2.6"
+                  style="--i: 8; --float: 4.8s; --delay: -0.5s; --amp: 12px"
+                  ><img src="assets/media/violin-note-4.webp" width="59" height="79" alt=""
+                /></span>
+                <span
+                  class="layer layer--sparks-left spark"
+                  data-depth="0.6"
+                  style="--i: 9; --origin: 100% 40%"
+                  ><img src="assets/media/violin-sparks-left.webp" width="80" height="146" alt=""
+                /></span>
+                <span
+                  class="layer layer--sparks-top spark"
+                  data-depth="0.6"
+                  style="--i: 10; --origin: 40% 100%; --delay: -0.8s"
+                  ><img src="assets/media/violin-sparks-top.webp" width="87" height="97" alt=""
+                /></span>
+              </div>
             </div>
-            <span class="chip"><span class="chip__dot"></span>In development</span>
+          </div>
+        </div>
+
+        <a class="scroll-cue" href="#story" data-enter style="--i: 4">
+          <span>Follow one practice session</span>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 5v14M6 13l6 6 6-6" />
+          </svg>
+        </a>
+      </section>
+
+      <!-- ==================================================================
+           Before and after. Six of the objects from the drawings stand round
+           a real session screen; scrolling flies each one into the tool it
+           became. Without script, or with reduced motion, the two halves of
+           the story simply stand one after the other and nothing flies.
+           =================================================================== -->
+      <section class="converge" id="story" aria-labelledby="converge-title" data-converge>
+        <div class="converge__track">
+          <div class="converge__stage">
+            <div class="wrap converge__grid">
+              <div class="converge__copy">
+                <div class="converge__state converge__state--before">
+                  <p class="eyebrow">Before Rehearsio</p>
+                  <h2 class="converge__title" id="converge-title">Six apps on one music stand.</h2>
+                  <p class="converge__text">
+                    A tuner, a metronome, voice memos, a notebook, a stopwatch and a practice diary
+                    — and none of them knows what the others did.
+                  </p>
+                </div>
+                <div class="converge__state converge__state--after">
+                  <p class="eyebrow">With Rehearsio</p>
+                  <h2 class="converge__title">One session holds them all.</h2>
+                  <p class="converge__text">
+                    Start it, and everything happens inside: the score is open, the metronome is
+                    under your hand, the recorder is running and the time counts itself.
+                  </p>
+                </div>
+              </div>
+
+              <div class="converge__scene">
+                <div class="converge__device">
+                  <img
+                    class="converge__tablet"
+                    src="assets/media/tablet-timer-dark-1100.webp"
+                    srcset="
+                      assets/media/tablet-timer-dark-640.webp   640w,
+                      assets/media/tablet-timer-dark-1100.webp 1100w
+                    "
+                    sizes="(min-width: 960px) 30vw, 50vw"
+                    width="1396"
+                    height="2000"
+                    alt="A practice session in Rehearsio on a tablet: the clock running and five tools along the bottom — countdown, metronome, recorder, notes and tuner."
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <!-- Where each object lands: the five tools in the bottom
+                       row, and the clock for the diary. Measured off the
+                       render by tools/build-site-media's numbers. -->
+                  <span
+                    class="converge__slot"
+                    data-slot="countdown"
+                    style="--sx: 12.03%; --sy: 90.15%"
+                  ></span>
+                  <span
+                    class="converge__slot"
+                    data-slot="metronome"
+                    style="--sx: 31.23%; --sy: 90.15%"
+                  ></span>
+                  <span
+                    class="converge__slot"
+                    data-slot="record"
+                    style="--sx: 50.07%; --sy: 90.15%"
+                  ></span>
+                  <span
+                    class="converge__slot"
+                    data-slot="note"
+                    style="--sx: 69.05%; --sy: 90.15%"
+                  ></span>
+                  <span
+                    class="converge__slot"
+                    data-slot="tuner"
+                    style="--sx: 88.11%; --sy: 90.15%"
+                  ></span>
+                  <span
+                    class="converge__slot converge__slot--clock"
+                    data-slot="clock"
+                    style="--sx: 50.07%; --sy: 48.3%"
+                  ></span>
+                </div>
+
+                <ul class="converge__doodles" aria-hidden="true">
+                  <li class="doodle doodle--tuner" data-to="tuner">
+                    <span class="doodle__art"
+                      ><img src="assets/media/violin-tuner.webp" width="262" height="264" alt=""
+                    /></span>
+                    <span class="doodle__label">Tuner app</span>
+                  </li>
+                  <li class="doodle doodle--metronome" data-to="metronome">
+                    <span class="doodle__art"
+                      ><img
+                        src="assets/media/violin-metronome.webp"
+                        width="270"
+                        height="262"
+                        alt=""
+                    /></span>
+                    <span class="doodle__label">Metronome app</span>
+                  </li>
+                  <li class="doodle doodle--recorder" data-to="record">
+                    <span class="doodle__art"
+                      ><img
+                        src="assets/media/piano-headphones.webp"
+                        width="219"
+                        height="158"
+                        alt=""
+                    /></span>
+                    <span class="doodle__label">Voice memos</span>
+                  </li>
+                  <li class="doodle doodle--notes" data-to="note">
+                    <span class="doodle__art"
+                      ><img src="assets/media/violin-notes.webp" width="212" height="210" alt=""
+                    /></span>
+                    <span class="doodle__label">Notebook</span>
+                  </li>
+                  <li class="doodle doodle--stopwatch" data-to="countdown">
+                    <span class="doodle__art"
+                      ><img
+                        src="assets/media/violin-stopwatch.webp"
+                        width="181"
+                        height="225"
+                        alt=""
+                    /></span>
+                    <span class="doodle__label">Stopwatch</span>
+                  </li>
+                  <li class="doodle doodle--diary" data-to="clock">
+                    <span class="doodle__art"
+                      ><img src="assets/media/violin-calendar.webp" width="256" height="230" alt=""
+                    /></span>
+                    <span class="doodle__label">Practice diary</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <hr class="rule" />
-
       <!-- ==================================================================
-           The one idea. One claim, alone, then the scenario in four beats.
+           One evening at the stand: six chapters, each a moment of her
+           session and the part of the app it happens in.
            =================================================================== -->
-      <section class="section">
+      <section class="session" aria-labelledby="session-title">
         <div class="wrap">
-          <p class="eyebrow" style="margin-bottom: var(--space-lg)">The idea</p>
-          <h2 class="statement">
-            Four apps on a music stand is four apps nobody keeps a record in.
-          </h2>
-          <p class="statement__note">
-            Rehearsio is built around one thing: the practice session. You start it, and everything
-            else happens inside — the score is open, the metronome is under your hand, the recorder
-            is running, the time counts itself. What's left afterwards is a record, not a memory.
-          </p>
+          <header class="session__head" data-reveal>
+            <p class="eyebrow">One evening at the stand</p>
+            <h2 class="section-title" id="session-title">
+              Follow her practice, from the first page to the last bar.
+            </h2>
+          </header>
 
-          <ol class="steps">
-            <li class="step">
-              <span class="step__shot"
-                ><img
-                  src="assets/shots/step-start.png"
-                  alt="The strip of days and today’s tasks on the home screen"
+          <ol class="chapters">
+            <!-- 18:00 — the library -->
+            <li class="chapter">
+              <div class="chapter__copy" data-reveal>
+                <p class="chapter__when">
+                  <span class="chapter__doodle" aria-hidden="true"
+                    ><img
+                      src="assets/media/piano-sheet.webp"
+                      width="197"
+                      height="177"
+                      alt=""
+                      loading="lazy"
+                  /></span>
+                  <span class="chapter__time">18:00</span>
+                </p>
+                <h3 class="chapter__title">She opens the score.</h3>
+                <p class="chapter__text">
+                  Every piece she plays is on one shelf: PDFs brought in from Files, Mail or
+                  anything that can share, tagged by instrument and gathered into programmes — the
+                  graduation exam is one folder. Each score opens on the page she left.
+                </p>
+                <ul class="chapter__facts">
+                  <li>Import from any app that shares</li>
+                  <li>Tags, folders and filters</li>
+                  <li>Opens where you left off</li>
+                </ul>
+              </div>
+              <figure class="chapter__media paper" data-reveal="unfold">
+                <img
+                  class="paper__card"
+                  src="assets/media/card-library-1600.webp"
+                  srcset="
+                    assets/media/card-library-960.webp   960w,
+                    assets/media/card-library-1600.webp 1600w
+                  "
+                  sizes="(min-width: 960px) 56vw, 92vw"
+                  width="2160"
+                  height="2198"
+                  alt="The Rehearsio library on an iPad and an iPhone: scores shown as their covers — Hajibeyli, Dall'Abaco, Rachmaninoff, Brahms — with tags under each."
                   loading="lazy"
-                  width="900"
-                  height="562"
-              /></span>
-              <h3>Start</h3>
-              <p>One press. The clock runs and the session is open behind everything else.</p>
+                  decoding="async"
+                  data-parallax
+                />
+              </figure>
             </li>
-            <li class="step">
-              <span class="step__shot"
-                ><img
-                  src="assets/shots/step-play.png"
-                  alt="The session stopwatch running"
-                  loading="lazy"
-                  width="900"
-                  height="562"
-              /></span>
-              <h3>Play</h3>
-              <p>Score on screen, metronome a tap away, the recording already going.</p>
+
+            <!-- 18:02 — the session, and a working copy of it -->
+            <li class="chapter chapter--wide">
+              <div class="chapter__copy" data-reveal>
+                <p class="chapter__when">
+                  <span class="chapter__doodle" aria-hidden="true"
+                    ><img
+                      src="assets/media/violin-stopwatch.webp"
+                      width="181"
+                      height="225"
+                      alt=""
+                      loading="lazy"
+                  /></span>
+                  <span class="chapter__time">18:02</span>
+                </p>
+                <h3 class="chapter__title">She starts the session.</h3>
+                <p class="chapter__text">
+                  One tap and the clock runs. She tells it what she is working on — warm-up, scales,
+                  etudes or a piece — and five tools wait in a row under her thumb, over the score,
+                  without leaving it. The session below works: start the metronome, tune a string,
+                  drop a mark.
+                </p>
+              </div>
+
+              <div class="chapter__stage">
+                <figure class="chapter__media paper" data-reveal="unfold">
+                  <img
+                    class="paper__card"
+                    src="assets/media/card-practice-1600.webp"
+                    srcset="
+                      assets/media/card-practice-960.webp   960w,
+                      assets/media/card-practice-1600.webp 1600w
+                    "
+                    sizes="(min-width: 960px) 58vw, 92vw"
+                    width="2160"
+                    height="1849"
+                    alt="Three practice sessions in Rehearsio: on an iPad with the tuner open at A, minus nine cents; on an iPhone with the clock at 00:42 and a recording running; on an iPad with the metronome at 110, Moderato."
+                    loading="lazy"
+                    decoding="async"
+                    data-parallax
+                  />
+                </figure>
+
+                <!-- A working copy of the session screen. Built from the app's
+                     own dark palette and words; the clicks are the app's two
+                     samples (assets/audio). -->
+                <div
+                  class="playground"
+                  role="group"
+                  data-reveal
+                  data-playground
+                  aria-label="A working copy of the practice session"
+                >
+                  <div class="pg">
+                    <div class="pg__ask">
+                      <p class="pg__question" id="pg-question">What are you working on?</p>
+                      <div class="pg__chips" role="radiogroup" aria-labelledby="pg-question">
+                        <button class="pg__chip" type="button" role="radio" aria-checked="false">
+                          Warm-up
+                        </button>
+                        <button class="pg__chip" type="button" role="radio" aria-checked="true">
+                          Scales
+                        </button>
+                        <button class="pg__chip" type="button" role="radio" aria-checked="false">
+                          Etudes
+                        </button>
+                        <button class="pg__chip" type="button" role="radio" aria-checked="false">
+                          Pick a piece
+                        </button>
+                      </div>
+                    </div>
+
+                    <button class="pg__clock" type="button" data-clock aria-label="Pause practice">
+                      <span class="pg__time" data-clock-time>00:00</span>
+                      <span class="pg__state"
+                        ><span class="pg__dot" aria-hidden="true"></span
+                        ><span data-clock-state>Running</span></span
+                      >
+                    </button>
+
+                    <div class="pg__panel">
+                      <!-- Metronome -->
+                      <div
+                        class="pg__view"
+                        id="pg-metronome"
+                        role="tabpanel"
+                        aria-labelledby="pg-tab-metronome"
+                        data-view="metronome"
+                      >
+                        <div class="metro">
+                          <div class="metro__tempo">
+                            <button
+                              class="pg__round"
+                              type="button"
+                              data-bpm-step="-1"
+                              aria-label="One beat slower"
+                            >
+                              <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                aria-hidden="true"
+                              >
+                                <path d="M6 12h12" />
+                              </svg>
+                            </button>
+                            <p class="metro__read">
+                              <span class="metro__bpm" data-bpm>110</span>
+                              <span class="metro__name" data-bpm-name>Moderato</span>
+                            </p>
+                            <button
+                              class="pg__round"
+                              type="button"
+                              data-bpm-step="1"
+                              aria-label="One beat faster"
+                            >
+                              <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                aria-hidden="true"
+                              >
+                                <path d="M6 12h12M12 6v12" />
+                              </svg>
+                            </button>
+                          </div>
+                          <input
+                            class="metro__ruler"
+                            type="range"
+                            min="20"
+                            max="300"
+                            value="110"
+                            step="1"
+                            aria-label="Tempo"
+                            data-bpm-range
+                          />
+                          <div class="metro__beats" aria-hidden="true">
+                            <span class="metro__beat metro__beat--strong"></span
+                            ><span class="metro__beat"></span><span class="metro__beat"></span
+                            ><span class="metro__beat"></span>
+                          </div>
+                          <div class="metro__actions">
+                            <button
+                              class="pg__button pg__button--solid"
+                              type="button"
+                              data-metro-toggle
+                            >
+                              Start
+                            </button>
+                            <button class="pg__button" type="button" data-metro-tap>Tap</button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Tuner -->
+                      <div
+                        class="pg__view"
+                        id="pg-tuner"
+                        role="tabpanel"
+                        aria-labelledby="pg-tab-tuner"
+                        data-view="tuner"
+                        hidden
+                      >
+                        <div class="tuner" data-tuner>
+                          <p class="tuner__note">
+                            <span data-tuner-note>A</span><sub data-tuner-octave>4</sub>
+                          </p>
+                          <div class="tuner__scale" aria-hidden="true">
+                            <span class="tuner__needle" data-tuner-needle></span>
+                          </div>
+                          <p class="tuner__cents" data-tuner-cents aria-live="polite">−12 cents</p>
+                          <p class="tuner__hz"><span data-tuner-hz>437.0</span> Hz</p>
+                          <div class="tuner__strings" role="radiogroup" aria-label="Violin string">
+                            <button
+                              class="pg__chip"
+                              type="button"
+                              role="radio"
+                              aria-checked="false"
+                              data-string="G3"
+                            >
+                              G
+                            </button>
+                            <button
+                              class="pg__chip"
+                              type="button"
+                              role="radio"
+                              aria-checked="false"
+                              data-string="D4"
+                            >
+                              D
+                            </button>
+                            <button
+                              class="pg__chip"
+                              type="button"
+                              role="radio"
+                              aria-checked="true"
+                              data-string="A4"
+                            >
+                              A
+                            </button>
+                            <button
+                              class="pg__chip"
+                              type="button"
+                              role="radio"
+                              aria-checked="false"
+                              data-string="E5"
+                            >
+                              E
+                            </button>
+                          </div>
+                          <p class="tuner__ref">
+                            A 440 · Violin · a demo; the app listens through the microphone
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- Recording -->
+                      <div
+                        class="pg__view"
+                        id="pg-record"
+                        role="tabpanel"
+                        aria-labelledby="pg-tab-record"
+                        data-view="record"
+                        hidden
+                      >
+                        <div class="rec" data-rec>
+                          <div class="rec__strip">
+                            <span class="rec__dot" aria-hidden="true"></span>
+                            <span class="rec__time" data-rec-time>00:00</span>
+                            <span class="rec__wave" data-rec-wave aria-hidden="true"></span>
+                            <button
+                              class="pg__round"
+                              type="button"
+                              data-rec-mark
+                              aria-label="Add a mark"
+                            >
+                              <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                              >
+                                <path d="M5 21V4M5 4h11l-2 4 2 4H5" />
+                              </svg>
+                            </button>
+                            <button
+                              class="pg__round"
+                              type="button"
+                              data-rec-toggle
+                              aria-label="Pause the recording"
+                            >
+                              <svg
+                                class="rec__pause"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <rect x="7" y="5" width="3.5" height="14" rx="1" />
+                                <rect x="13.5" y="5" width="3.5" height="14" rx="1" />
+                              </svg>
+                              <svg
+                                class="rec__resume"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-hidden="true"
+                              >
+                                <circle cx="12" cy="12" r="6" />
+                              </svg>
+                            </button>
+                          </div>
+                          <ul class="rec__marks" data-rec-marks aria-live="polite"></ul>
+                          <p class="rec__hint" data-rec-hint>
+                            Tap the flag where it went well, or where it didn't.
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- Quick note -->
+                      <div
+                        class="pg__view"
+                        id="pg-note"
+                        role="tabpanel"
+                        aria-labelledby="pg-tab-note"
+                        data-view="note"
+                        hidden
+                      >
+                        <div class="notes" data-notes>
+                          <ul class="notes__list" data-notes-list>
+                            <li><span>Exam programme</span><small>29 Aug</small></li>
+                            <li><span>Buy rosin</span><small>4 Sep</small></li>
+                          </ul>
+                          <button class="pg__button" type="button" data-notes-add>New note</button>
+                        </div>
+                      </div>
+
+                      <!-- Countdown -->
+                      <div
+                        class="pg__view"
+                        id="pg-countdown"
+                        role="tabpanel"
+                        aria-labelledby="pg-tab-countdown"
+                        data-view="countdown"
+                        hidden
+                      >
+                        <div class="countdown" data-countdown>
+                          <p class="countdown__time" data-countdown-time>05:00</p>
+                          <div class="countdown__ring" aria-hidden="true">
+                            <span data-countdown-bar></span>
+                          </div>
+                          <button
+                            class="pg__button pg__button--solid"
+                            type="button"
+                            data-countdown-toggle
+                          >
+                            Start
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="pg__tools" role="tablist" aria-label="Tools">
+                      <button
+                        class="pg__tool"
+                        type="button"
+                        role="tab"
+                        id="pg-tab-countdown"
+                        aria-controls="pg-countdown"
+                        aria-selected="false"
+                        data-tool="countdown"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <circle cx="12" cy="14" r="8" />
+                          <path d="M10 2h4M12 14v-4" />
+                        </svg>
+                        <span>Countdown</span>
+                      </button>
+                      <button
+                        class="pg__tool"
+                        type="button"
+                        role="tab"
+                        id="pg-tab-metronome"
+                        aria-controls="pg-metronome"
+                        aria-selected="true"
+                        data-tool="metronome"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M9.5 3h5l4.5 18H5z" />
+                          <path d="M6.5 15h11" />
+                          <path d="M12 15 16 6" />
+                        </svg>
+                        <span>Metronome</span>
+                      </button>
+                      <button
+                        class="pg__tool"
+                        type="button"
+                        role="tab"
+                        id="pg-tab-record"
+                        aria-controls="pg-record"
+                        aria-selected="false"
+                        data-tool="record"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <rect x="9" y="2" width="6" height="13" rx="3" />
+                          <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3" />
+                        </svg>
+                        <span>Recording</span>
+                      </button>
+                      <button
+                        class="pg__tool"
+                        type="button"
+                        role="tab"
+                        id="pg-tab-note"
+                        aria-controls="pg-note"
+                        aria-selected="false"
+                        data-tool="note"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+                          <path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8" />
+                        </svg>
+                        <span>Quick note</span>
+                      </button>
+                      <button
+                        class="pg__tool"
+                        type="button"
+                        role="tab"
+                        id="pg-tab-tuner"
+                        aria-controls="pg-tuner"
+                        aria-selected="false"
+                        data-tool="tuner"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M8 2v7a4 4 0 0 0 8 0V2M12 13v9" />
+                        </svg>
+                        <span>Tuner</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </li>
-            <li class="step">
-              <span class="step__shot"
-                ><img
-                  src="assets/shots/step-mark.jpg"
-                  alt="Bowings, a highlighted ritardando and a written reminder, pencilled onto a score"
-                  loading="lazy"
-                  width="900"
-                  height="562"
-              /></span>
-              <h3>Mark</h3>
-              <p>Pencil on the page, a note to yourself, a task for tomorrow.</p>
+
+            <!-- 18:20 — pencil marks -->
+            <li class="chapter chapter--flip">
+              <div class="chapter__copy" data-reveal>
+                <p class="chapter__when">
+                  <span class="chapter__doodle" aria-hidden="true"
+                    ><img
+                      src="assets/media/violin-notes.webp"
+                      width="212"
+                      height="210"
+                      alt=""
+                      loading="lazy"
+                  /></span>
+                  <span class="chapter__time">18:20</span>
+                </p>
+                <h3 class="chapter__title">She circles the bar she keeps missing.</h3>
+                <p class="chapter__text">
+                  Six pencils and a highlighter, straight onto the page: a fingering, a breath, the
+                  fast run marked in yellow, a ring round the bar that keeps going wrong. The marks
+                  belong to the score, so tomorrow they are still there.
+                </p>
+                <div class="pencils">
+                  <p class="pencils__label" id="pencils-label">Pick a pencil</p>
+                  <div
+                    class="pencils__row"
+                    role="radiogroup"
+                    aria-labelledby="pencils-label"
+                    data-pencils
+                  >
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked="true"
+                      aria-label="Red"
+                      style="--ink: #d8352a"
+                    ></button>
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked="false"
+                      aria-label="Orange"
+                      style="--ink: #de6b1e"
+                    ></button>
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked="false"
+                      aria-label="Yellow"
+                      style="--ink: #e8bc00"
+                    ></button>
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked="false"
+                      aria-label="Green"
+                      style="--ink: #1f7a46"
+                    ></button>
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked="false"
+                      aria-label="Blue"
+                      style="--ink: #1a5cc8"
+                    ></button>
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked="false"
+                      aria-label="Violet"
+                      style="--ink: #6e3bc0"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+              <figure class="chapter__media paper paper--bleed-left" data-reveal="unfold">
+                <!-- The page and its marks move as one: the parallax and the
+                     unfold scale act on this box, not on the picture alone. -->
+                <div class="score paper__card" data-score data-parallax>
+                  <img
+                    src="assets/media/card-score-ipad-1320.webp"
+                    srcset="
+                      assets/media/card-score-ipad-800.webp   800w,
+                      assets/media/card-score-ipad-1320.webp 1320w
+                    "
+                    sizes="(min-width: 960px) 52vw, 92vw"
+                    width="1320"
+                    height="1415"
+                    alt="Boccherini's Minuet from the String Quintet in E major open in Rehearsio on an iPad, close up, with pencil marks on the page."
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <!-- The marks, in the app's own inks (src/ui/theme/colors.ts,
+                       pencilColors), drawn in the picture's pixel space so they
+                       stay on their notes at any size. The page in the picture
+                       is turned 13.66° — every staff line rises 0.243 px per px
+                       — so each mark is turned with it. -->
+                  <svg class="score__marks" viewBox="0 0 1320 1415" aria-hidden="true">
+                    <path class="mark mark--highlight" style="--d: 0ms" d="M370 1017L560 1063" />
+                    <path
+                      class="mark mark--blue"
+                      style="--d: 500ms"
+                      transform="translate(456 1272) rotate(13.66)"
+                      d="M-36 13v-26l-6 6M-12-7c3-8 16-9 18 0 2 8-14 14-18 20h20M30-13l-10 19h20m-6-12v22"
+                    />
+                    <path
+                      class="mark mark--violet"
+                      style="--d: 850ms"
+                      transform="translate(432 1146) rotate(13.66)"
+                      d="M-2-12c9 3 9 15-3 22"
+                    />
+                    <path
+                      class="mark mark--green"
+                      style="--d: 1100ms"
+                      transform="translate(1040 628) rotate(13.66)"
+                      d="M-18-2l12 14 26-30"
+                    />
+                    <path
+                      class="mark mark--ink"
+                      data-ink
+                      style="--d: 1400ms"
+                      transform="translate(452 702) rotate(13.66)"
+                      d="M6-70c-62-1-108 28-110 66-2 40 50 70 112 68 62-1 104-32 102-70-2-38-50-66-112-62-24 1-44 8-58 16"
+                    />
+                  </svg>
+                </div>
+              </figure>
             </li>
-            <li class="step">
-              <span class="step__shot"
-                ><img
-                  src="assets/shots/step-look.png"
-                  alt="A year of practice as a calendar"
+
+            <!-- 18:40 — listening back -->
+            <li class="chapter">
+              <div class="chapter__copy" data-reveal>
+                <p class="chapter__when">
+                  <span class="chapter__doodle" aria-hidden="true"
+                    ><img
+                      src="assets/media/piano-headphones.webp"
+                      width="219"
+                      height="158"
+                      alt=""
+                      loading="lazy"
+                  /></span>
+                  <span class="chapter__time">18:40</span>
+                </p>
+                <h3 class="chapter__title">She listens back.</h3>
+                <p class="chapter__text">
+                  The recorder ran the whole time. Every take stays with the session it came from;
+                  she plays it at half speed, jumps from mark to mark — went well, didn't work — and
+                  reads how long she spent on what.
+                </p>
+                <ul class="chapter__facts">
+                  <li>Playback at 0.5×, 0.75× and 1×</li>
+                  <li>Marks dropped while recording</li>
+                  <li>Recordings stay on the phone</li>
+                </ul>
+              </div>
+              <figure class="chapter__media paper" data-reveal="unfold">
+                <img
+                  class="paper__card"
+                  src="assets/media/card-details-1600.webp"
+                  srcset="
+                    assets/media/card-details-960.webp   960w,
+                    assets/media/card-details-1600.webp 1600w
+                  "
+                  sizes="(min-width: 960px) 56vw, 92vw"
+                  width="2160"
+                  height="2198"
+                  alt="Three iPad screens from one session: the piece with its tasks and recordings, the two-minute session summary, and a recording's waveform with two marks — went well at 00:32, didn't work at 00:47."
                   loading="lazy"
-                  width="900"
-                  height="562"
-              /></span>
-              <h3>Look back</h3>
-              <p>How long, on what, at what tempo — and how it actually sounded.</p>
+                  decoding="async"
+                  data-parallax
+                />
+              </figure>
+            </li>
+
+            <!-- 18:45 — tomorrow -->
+            <li class="chapter chapter--flip">
+              <div class="chapter__copy" data-reveal>
+                <p class="chapter__when">
+                  <span class="chapter__doodle" aria-hidden="true"
+                    ><img
+                      src="assets/media/piano-checklist.webp"
+                      width="210"
+                      height="208"
+                      alt=""
+                      loading="lazy"
+                  /></span>
+                  <span class="chapter__time">18:45</span>
+                </p>
+                <h3 class="chapter__title">She leaves a note for tomorrow.</h3>
+                <p class="chapter__text">
+                  A task with a day on it, a note she will find again, and today's goal — filled.
+                  Tomorrow starts where this evening stopped.
+                </p>
+                <ul class="tasks" aria-label="Tasks">
+                  <li>
+                    <label class="tasks__item">
+                      <input type="checkbox" />
+                      <span class="tasks__box" aria-hidden="true"></span>
+                      <span class="tasks__text"
+                        >Kreutzer No 2 — by heart
+                        <small class="tasks__due tasks__due--late">Overdue · Thu</small></span
+                      >
+                    </label>
+                  </li>
+                  <li>
+                    <label class="tasks__item">
+                      <input type="checkbox" />
+                      <span class="tasks__box" aria-hidden="true"></span>
+                      <span class="tasks__text"
+                        >Sonata No 14 — bars 40–56 <small class="tasks__due">Today</small></span
+                      >
+                    </label>
+                  </li>
+                  <li>
+                    <label class="tasks__item">
+                      <input type="checkbox" />
+                      <span class="tasks__box" aria-hidden="true"></span>
+                      <span class="tasks__text"
+                        >Bach — Allemande, slow through <small class="tasks__due">Fri</small></span
+                      >
+                    </label>
+                  </li>
+                </ul>
+              </div>
+              <figure class="chapter__media paper paper--bleed-left" data-reveal="unfold">
+                <img
+                  class="paper__card"
+                  src="assets/media/card-home-1600.webp"
+                  srcset="
+                    assets/media/card-home-960.webp   960w,
+                    assets/media/card-home-1600.webp 1600w
+                  "
+                  sizes="(min-width: 960px) 60vw, 92vw"
+                  width="2160"
+                  height="2126"
+                  alt="The Rehearsio home screen on an iPhone and an iPad: the week's days ringed in green, today's goal reached, three tasks and the latest notes."
+                  loading="lazy"
+                  decoding="async"
+                  data-parallax
+                />
+              </figure>
+            </li>
+
+            <!-- Sunday — statistics -->
+            <li class="chapter">
+              <div class="chapter__copy" data-reveal>
+                <p class="chapter__when">
+                  <span class="chapter__doodle" aria-hidden="true"
+                    ><img
+                      src="assets/media/violin-calendar.webp"
+                      width="256"
+                      height="230"
+                      alt=""
+                      loading="lazy"
+                  /></span>
+                  <span class="chapter__time">Sunday</span>
+                </p>
+                <h3 class="chapter__title">She looks back on the week.</h3>
+                <p class="chapter__text">
+                  Minutes per piece, days in a row, a calendar that fills in green. On a week that
+                  felt slow, it shows the hours were there.
+                </p>
+                <dl class="stats" data-stats>
+                  <div class="stats__item">
+                    <dt>This week</dt>
+                    <dd data-count="290" data-unit="hm">4 h 50 min</dd>
+                  </div>
+                  <div class="stats__item">
+                    <dt>Sessions</dt>
+                    <dd data-count="7">7</dd>
+                  </div>
+                  <div class="stats__item">
+                    <dt>Longest</dt>
+                    <dd data-count="108" data-unit="hm">1 h 48 min</dd>
+                  </div>
+                </dl>
+              </div>
+              <figure class="chapter__media paper paper--bleed-right" data-reveal="unfold">
+                <img
+                  class="paper__card"
+                  src="assets/media/card-stats-1600.webp"
+                  srcset="
+                    assets/media/card-stats-960.webp   960w,
+                    assets/media/card-stats-1600.webp 1600w
+                  "
+                  sizes="(min-width: 960px) 60vw, 92vw"
+                  width="2160"
+                  height="2204"
+                  alt="The statistics screen on an iPad: 4 h 50 min over seven sessions, a calendar of practised days in green, and time by piece."
+                  loading="lazy"
+                  decoding="async"
+                  data-parallax
+                />
+              </figure>
             </li>
           </ol>
         </div>
       </section>
 
       <!-- ==================================================================
-           What is in the first version. Nine cards, one line each.
+           Light and dark. The same three screens in both themes; one line
+           across them decides which is which, and the reader can move it.
            =================================================================== -->
-      <section class="section section--sunken" id="features">
+      <section class="themes" aria-labelledby="themes-title">
         <div class="wrap">
-          <div class="section__head">
-            <p class="eyebrow">What's inside</p>
-            <h2 class="headline">Nine tools that already know about each other.</h2>
-          </div>
+          <header class="themes__head" data-reveal>
+            <p class="eyebrow">iPhone, iPad and Android</p>
+            <h2 class="section-title" id="themes-title">Day or night, it follows your phone.</h2>
+            <p class="section-lead">
+              Bright for a sunny room, dark for an evening rehearsal — Rehearsio switches with your
+              system, and the page of music stays white either way. Drag the line.
+            </p>
+          </header>
 
-          <ul class="features">
-            <li class="feature">
+          <div class="split" data-split data-reveal>
+            <figure class="split__phone">
+              <img
+                src="assets/media/phone-home-light-640.webp"
+                srcset="
+                  assets/media/phone-home-light-380.webp 380w,
+                  assets/media/phone-home-light-640.webp 640w
+                "
+                sizes="(min-width: 720px) 24vw, 64vw"
+                width="1118"
+                height="2362"
+                alt="The home screen in the light theme on an Android phone: five days ringed in green, today's goal at 1 h 18 min of 1 h 45 min, three tasks."
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                class="split__dark"
+                src="assets/media/phone-home-dark-640.webp"
+                srcset="
+                  assets/media/phone-home-dark-380.webp 380w,
+                  assets/media/phone-home-dark-640.webp 640w
+                "
+                sizes="(min-width: 720px) 24vw, 64vw"
+                width="1118"
+                height="2362"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+            <figure class="split__phone">
+              <img
+                src="assets/media/phone-library-light-640.webp"
+                srcset="
+                  assets/media/phone-library-light-380.webp 380w,
+                  assets/media/phone-library-light-640.webp 640w
+                "
+                sizes="(min-width: 720px) 24vw, 64vw"
+                width="1118"
+                height="2362"
+                alt="The library in the light theme on an Android phone: covers, composers and tags."
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                class="split__dark"
+                src="assets/media/phone-library-dark-640.webp"
+                srcset="
+                  assets/media/phone-library-dark-380.webp 380w,
+                  assets/media/phone-library-dark-640.webp 640w
+                "
+                sizes="(min-width: 720px) 24vw, 64vw"
+                width="1118"
+                height="2362"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+
+            <div class="split__line" aria-hidden="true">
+              <span class="split__handle">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="4" />
+                  <path
+                    d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+                  />
+                </svg>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                </svg>
+              </span>
+            </div>
+            <input
+              class="split__range"
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              aria-label="Move the line between the light theme and the dark theme"
+              data-split-range
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           What is in the app. Nine cards, one line each.
+           =================================================================== -->
+      <section class="features" id="features" aria-labelledby="features-title">
+        <div class="wrap">
+          <header class="features__head" data-reveal>
+            <p class="eyebrow">What's inside</p>
+            <h2 class="section-title" id="features-title">
+              Nine tools that already know about each other.
+            </h2>
+          </header>
+
+          <ul class="feature-grid">
+            <li class="feature-card" data-reveal style="--i: 0">
               <svg
-                class="feature__icon"
+                class="feature-card__icon"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -251,10 +1373,9 @@
                 off.
               </p>
             </li>
-
-            <li class="feature">
+            <li class="feature-card" data-reveal style="--i: 1">
               <svg
-                class="feature__icon"
+                class="feature-card__icon"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -274,10 +1395,9 @@
                 you keep missing.
               </p>
             </li>
-
-            <li class="feature">
+            <li class="feature-card" data-reveal style="--i: 2">
               <svg
-                class="feature__icon"
+                class="feature-card__icon"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -296,10 +1416,9 @@
                 is busy.
               </p>
             </li>
-
-            <li class="feature">
+            <li class="feature-card" data-reveal style="--i: 3">
               <svg
-                class="feature__icon"
+                class="feature-card__icon"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -315,10 +1434,9 @@
               <h3>Tuner</h3>
               <p>Note, cents and a needle that holds still. Works for anything with a pitch.</p>
             </li>
-
-            <li class="feature">
+            <li class="feature-card" data-reveal style="--i: 4">
               <svg
-                class="feature__icon"
+                class="feature-card__icon"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -337,10 +1455,9 @@
                 send it somewhere.
               </p>
             </li>
-
-            <li class="feature">
+            <li class="feature-card" data-reveal style="--i: 5">
               <svg
-                class="feature__icon"
+                class="feature-card__icon"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -359,10 +1476,9 @@
                 to the piece.
               </p>
             </li>
-
-            <li class="feature">
+            <li class="feature-card" data-reveal style="--i: 6">
               <svg
-                class="feature__icon"
+                class="feature-card__icon"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -380,10 +1496,9 @@
                 How long you actually played, split by what you played. Counted for you, not by you.
               </p>
             </li>
-
-            <li class="feature">
+            <li class="feature-card" data-reveal style="--i: 7">
               <svg
-                class="feature__icon"
+                class="feature-card__icon"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -401,10 +1516,9 @@
                 glance.
               </p>
             </li>
-
-            <li class="feature">
+            <li class="feature-card" data-reveal style="--i: 8">
               <svg
-                class="feature__icon"
+                class="feature-card__icon"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -428,74 +1542,159 @@
       </section>
 
       <!-- ==================================================================
-           Screenshot slots. Reserved, not faked: the pictures land at S13.11
-           and drop into these frames without the layout changing.
+           The end of the story, and the download. The second drawing, cut
+           the same way as the first.
            =================================================================== -->
-      <section class="section">
-        <div class="wrap">
-          <div class="section__head">
-            <p class="eyebrow">The app</p>
-            <h2 class="headline">Built to be read from a music stand.</h2>
-            <p class="body muted">
-              Big figures, warm paper-coloured surfaces, and no colour of its own — so the only
-              bright things on screen are the marks you made.
-            </p>
+      <section class="finale" id="download" aria-labelledby="finale-title" data-scene-host>
+        <div class="wrap finale__grid">
+          <div class="finale__art" data-reveal="unfold">
+            <div class="paper paper--scene">
+              <div class="scene scene--piano" data-scene>
+                <img
+                  class="layer layer--girl"
+                  src="assets/media/piano-girl.webp"
+                  width="999"
+                  height="1413"
+                  alt="A drawing of the same girl, now at a piano, playing from a tablet on the music rest that shows the Rehearsio mark."
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span
+                  class="layer layer--metronome"
+                  data-depth="1.3"
+                  style="--float: 7s; --delay: -2s"
+                  ><img
+                    src="assets/media/piano-metronome.webp"
+                    width="170"
+                    height="184"
+                    alt=""
+                    loading="lazy"
+                /></span>
+                <span class="layer layer--sheet" data-depth="1.7" style="--float: 8s; --delay: -5s"
+                  ><img
+                    src="assets/media/piano-sheet.webp"
+                    width="197"
+                    height="177"
+                    alt=""
+                    loading="lazy"
+                /></span>
+                <span
+                  class="layer layer--headphones"
+                  data-depth="1.2"
+                  style="--float: 6.5s; --delay: -1s"
+                  ><img
+                    src="assets/media/piano-headphones.webp"
+                    width="219"
+                    height="158"
+                    alt=""
+                    loading="lazy"
+                /></span>
+                <span
+                  class="layer layer--checklist"
+                  data-depth="1.6"
+                  style="--float: 7.5s; --delay: -3.5s"
+                  ><img
+                    src="assets/media/piano-checklist.webp"
+                    width="210"
+                    height="208"
+                    alt=""
+                    loading="lazy"
+                /></span>
+                <span
+                  class="layer layer--note-1"
+                  data-depth="2.4"
+                  style="--float: 4.8s; --delay: -1.5s; --amp: 12px"
+                  ><img
+                    src="assets/media/piano-note-1.webp"
+                    width="62"
+                    height="72"
+                    alt=""
+                    loading="lazy"
+                /></span>
+                <span
+                  class="layer layer--note-2"
+                  data-depth="2.8"
+                  style="--float: 5.2s; --delay: -0.5s; --amp: 14px"
+                  ><img
+                    src="assets/media/piano-note-2.webp"
+                    width="67"
+                    height="72"
+                    alt=""
+                    loading="lazy"
+                /></span>
+                <span
+                  class="layer layer--note-3"
+                  data-depth="2.2"
+                  style="--float: 4.4s; --delay: -2.5s; --amp: 10px"
+                  ><img
+                    src="assets/media/piano-note-3.webp"
+                    width="48"
+                    height="51"
+                    alt=""
+                    loading="lazy"
+                /></span>
+                <span
+                  class="layer layer--sparks-left spark"
+                  data-depth="0.6"
+                  style="--origin: 100% 50%"
+                  ><img
+                    src="assets/media/piano-sparks-left.webp"
+                    width="90"
+                    height="151"
+                    alt=""
+                    loading="lazy"
+                /></span>
+                <span
+                  class="layer layer--sparks-right spark"
+                  data-depth="0.6"
+                  style="--origin: 0% 100%; --delay: -0.7s"
+                  ><img
+                    src="assets/media/piano-sparks-right.webp"
+                    width="117"
+                    height="94"
+                    alt=""
+                    loading="lazy"
+                /></span>
+              </div>
+            </div>
           </div>
 
-          <div class="screens-bleed">
-            <div class="screens" role="group" aria-label="Four screens of Rehearsio on a tablet">
-              <figure class="screen">
-                <div class="device">
-                  <div class="device__screen">
-                    <img
-                      src="assets/shots/home.png"
-                      alt="The Rehearsio home screen: a streak, the week’s days, tasks and notes"
-                      loading="lazy"
-                      width="834"
-                      height="1210"
-                    />
-                  </div>
-                </div>
-              </figure>
-              <figure class="screen">
-                <div class="device">
-                  <div class="device__screen">
-                    <img
-                      src="assets/shots/score.jpg"
-                      alt="A page of Gara Garayev's 5 Pieces open in Rehearsio, marked up in pencil and highlighter"
-                      loading="lazy"
-                      width="834"
-                      height="1210"
-                    />
-                  </div>
-                </div>
-              </figure>
-              <figure class="screen">
-                <div class="device">
-                  <div class="device__screen">
-                    <img
-                      src="assets/shots/library.jpg"
-                      alt="The Rehearsio library: Bach, Schubert, Beethoven and Tchaikovsky as their published covers, with tags and programmes"
-                      loading="lazy"
-                      width="834"
-                      height="1210"
-                    />
-                  </div>
-                </div>
-              </figure>
-              <figure class="screen">
-                <div class="device">
-                  <div class="device__screen">
-                    <img
-                      src="assets/shots/stats.png"
-                      alt="The statistics screen: hours practised and a calendar of activity"
-                      loading="lazy"
-                      width="834"
-                      height="1210"
-                    />
-                  </div>
-                </div>
-              </figure>
+          <div class="finale__copy" data-reveal>
+            <p class="eyebrow">Now on the App Store and Google Play</p>
+            <h2 class="finale__title" id="finale-title">Be part of the journey.</h2>
+            <p class="section-lead">
+              Rehearsio is free, needs no account, and keeps your scores, marks and recordings on
+              your phone. Bring it to your next practice — and tell us what it should learn next.
+            </p>
+            <div class="stores">
+              <a class="badge" href="https://apps.apple.com/app/rehearsio/id6809843721">
+                <img
+                  class="badge__light"
+                  src="assets/badges/app-store.svg"
+                  alt="Download on the App Store"
+                  width="120"
+                  height="40"
+                />
+                <img
+                  class="badge__dark"
+                  src="assets/badges/app-store-white.svg"
+                  alt="Download on the App Store"
+                  width="120"
+                  height="40"
+                />
+              </a>
+              <a
+                class="badge badge--google"
+                href="https://play.google.com/store/apps/details?id=com.rehearsio.app"
+              >
+                <img
+                  src="assets/badges/google-play.png"
+                  alt="Get it on Google Play"
+                  width="646"
+                  height="250"
+                  loading="lazy"
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -504,17 +1703,23 @@
       <!-- ==================================================================
            Support. This anchor is the Support URL the stores ask for.
            =================================================================== -->
-      <section class="section" id="support">
+      <section class="support" id="support" aria-labelledby="support-title">
         <div class="wrap">
-          <div class="section__head">
-            <p class="eyebrow">Support</p>
-            <h2 class="headline">Something broken, or something missing?</h2>
-            <p class="body muted">
-              Write to us. A person reads it, and a bug report from someone who plays is worth more
-              than a hundred that aren't.
-            </p>
+          <div class="support__card" data-reveal>
+            <div>
+              <p class="eyebrow">Support</p>
+              <h2 class="support__title" id="support-title">
+                Something broken, or something missing?
+              </h2>
+              <p class="support__text">
+                Write to us. A person reads it, and a bug report from someone who plays is worth
+                more than a hundred that aren't.
+              </p>
+            </div>
+            <a class="btn btn--primary support__mail" href="mailto:rehearsio@gmail.com"
+              >rehearsio@gmail.com</a
+            >
           </div>
-          <a class="btn btn--primary" href="mailto:rehearsio@gmail.com">rehearsio@gmail.com</a>
         </div>
       </section>
     </main>
@@ -533,6 +1738,10 @@
           </a>
 
           <nav aria-label="Footer">
+            <a href="https://apps.apple.com/app/rehearsio/id6809843721">App Store</a>
+            <a href="https://play.google.com/store/apps/details?id=com.rehearsio.app"
+              >Google Play</a
+            >
             <a href="#features">Features</a>
             <a href="#support">Support</a>
             <a href="privacy.html">Privacy policy</a>
@@ -545,5 +1754,6 @@
     </footer>
 
     <script src="site.js"></script>
+    <script src="home.js"></script>
   </body>
 </html>

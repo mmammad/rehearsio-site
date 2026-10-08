@@ -1,0 +1,2444 @@
+/* ===========================================================================
+   Rehearsio — the front page (S13.15a)
+   ---------------------------------------------------------------------------
+   Loaded after styles.css, by index.html only: the policy, the terms and the
+   Impressum never see this file. Everything they share with the front page —
+   the app's tokens, the header, the badges, the buttons — stays in styles.css
+   and is used from there.
+
+   What this page adds is the owner's own picture of the app rather than the
+   app's interface: the paper the store cards are drawn on, the ink and the
+   orange of the drawings, headlines sized for a poster rather than a screen,
+   and movement that travels hundreds of pixels instead of a button's width.
+   The app has none of these, so docs/10-design-tokens.md has none of them;
+   every one is declared in §1 below and nowhere else (ADR-103).
+
+   Two rules carried over unchanged:
+   - Anything that appears, changes or leaves moves; nothing snaps.
+   - Reduced motion is honoured completely: no float, no parallax, no flight,
+     and every reveal already revealed (§19, and home.js checks the same query).
+   =========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   1. Tokens of the page
+   --------------------------------------------------------------------------- */
+
+.home {
+  /* The paper of the owner's cards — #FCFCFB at every corner of every card,
+     measured by tools/build-site-media. The cards are cut out of it, so the
+     sheets they lie on must be exactly this or their edges would show. */
+  --paper: #fcfcfb;
+  /* Under the paper, one step darker, so a sheet reads as a sheet. */
+  --page: #f3f2ef;
+  --surface: #fcfcfb;
+  --ink: #141312;
+  --ink-2: #57534d; /* 6.8 : 1 on --page */
+  --ink-3: #6b6761; /* 5.0 : 1 on --page — captions, eyebrows */
+  --line: rgba(20, 19, 18, 0.09);
+
+  /* The orange of the sparks in the drawings, measured: #FE740B. Decoration
+     only. It never carries text (2.6 : 1 on --page is not readable) and never
+     means a state — the app keeps both of those jobs for ink and green. */
+  --spark: #fe740b;
+  --spark-glow: rgba(254, 116, 11, 0.42);
+
+  --shadow-paper: 0 1px 2px rgba(20, 19, 18, 0.05), 0 32px 64px -40px rgba(20, 19, 18, 0.42);
+  --shadow-device: 0 30px 60px -28px rgba(20, 19, 18, 0.45);
+
+  /* The cards carry their paper baked in; in the dark theme the sheet is
+     dimmed, and the card with it, by the same amount so they still match. */
+  --card-dim: 1;
+  /* Objects from the drawings that sit on the page rather than on a sheet are
+     ink on paper; on a dark page they become chalk. */
+  --doodle-filter: none;
+
+  --size-hero: clamp(46px, 6.6vw, 100px);
+  --size-section: clamp(34px, 5vw, 66px);
+  --size-chapter: clamp(28px, 3.3vw, 46px);
+  --size-lead: clamp(18px, 1.55vw, 21px);
+
+  --page-max: 1240px;
+  --radius-paper: clamp(22px, 2.8vw, 40px);
+  --section-gap: clamp(104px, 13vw, 200px);
+
+  /* Movement across a page, not across a button. §8 of the tokens stops at
+     320 ms, which is right for a press and much too quick for a picture
+     rising forty pixels into place. One duration and one curve for every
+     reveal, so the page has one rhythm. */
+  --duration-reveal: 900ms;
+  --easing-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+  --easing-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  background: var(--page);
+  color: var(--ink);
+  overflow-x: clip;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .home {
+    --paper: #e8e8e7;
+    --page: #191817;
+    --surface: #211f1e;
+    --ink: #f1efeb;
+    --ink-2: #aba69f;
+    --ink-3: #969089;
+    --line: rgba(255, 255, 255, 0.08);
+    --shadow-paper: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 32px 64px -36px rgba(0, 0, 0, 0.9);
+    --shadow-device: 0 30px 60px -28px rgba(0, 0, 0, 0.85);
+    --card-dim: 0.92;
+    --doodle-filter: invert(1);
+  }
+}
+
+:root[data-theme='dark'] .home {
+  --paper: #e8e8e7;
+  --page: #191817;
+  --surface: #211f1e;
+  --ink: #f1efeb;
+  --ink-2: #aba69f;
+  --ink-3: #969089;
+  --line: rgba(255, 255, 255, 0.08);
+  --shadow-paper: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 32px 64px -36px rgba(0, 0, 0, 0.9);
+  --shadow-device: 0 30px 60px -28px rgba(0, 0, 0, 0.85);
+  --card-dim: 0.92;
+  --doodle-filter: invert(1);
+}
+
+/* One picture, two themes: the variant for the other theme is not drawn. */
+.themed__dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .themed__light {
+    display: none;
+  }
+  :root:not([data-theme='light']) .themed__dark {
+    display: block;
+  }
+}
+
+:root[data-theme='dark'] .themed__light {
+  display: none;
+}
+
+:root[data-theme='dark'] .themed__dark {
+  display: block;
+}
+
+/* ---------------------------------------------------------------------------
+   2. Type
+   --------------------------------------------------------------------------- */
+
+.home .eyebrow {
+  color: var(--ink-3);
+}
+
+.section-title {
+  font-size: var(--size-section);
+  font-weight: 760;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.section-lead {
+  font-size: var(--size-lead);
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 34em;
+  text-wrap: pretty;
+}
+
+/* ---------------------------------------------------------------------------
+   3. Header: the page colour, a button that arrives, a line that fills
+   --------------------------------------------------------------------------- */
+
+.home .site-header {
+  background: var(--page);
+}
+
+.home .site-header[data-scrolled='true'] {
+  border-bottom-color: var(--line);
+}
+
+.home .nav__link {
+  color: var(--ink-2);
+}
+
+.home .nav__link:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 759px) {
+  .home .nav__link--wide {
+    display: none;
+  }
+}
+
+/* Waits until the badges in the hero have gone by: before that it would be
+   a second copy of what is already on screen. */
+.header-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--space-lg);
+  border-radius: var(--radius-full);
+  background: var(--ink);
+  color: var(--page);
+  font-size: var(--size-label);
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  translate: 0 8px;
+  visibility: hidden;
+  transition:
+    opacity var(--duration-slow) var(--easing-standard),
+    translate var(--duration-slow) var(--easing-standard),
+    visibility 0s linear var(--duration-slow),
+    scale var(--duration-fast) var(--easing-standard);
+}
+
+.header-cta[data-shown='true'] {
+  opacity: 1;
+  translate: 0 0;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.header-cta:active {
+  scale: 0.96;
+}
+
+/* Without script there is nothing to decide when it should appear; it is
+   simply there. */
+:root:not(.js) .header-cta {
+  opacity: 1;
+  translate: 0 0;
+  visibility: visible;
+}
+
+/* How far through the story the reader is. It follows the scroll, which is
+   the reader's own hand, so it neither eases nor lags. */
+.read-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  pointer-events: none;
+}
+
+.read-progress span {
+  display: block;
+  height: 100%;
+  background: var(--spark);
+  transform-origin: 0 50%;
+  transform: scaleX(var(--progress, 0));
+}
+
+/* ---------------------------------------------------------------------------
+   4. Paper — the sheet every picture lies on
+   --------------------------------------------------------------------------- */
+
+.paper {
+  position: relative;
+  margin: 0;
+  background: var(--paper);
+  border-radius: var(--radius-paper);
+  box-shadow: var(--shadow-paper);
+  overflow: hidden;
+  /* Which corners are round, for the reveal's clip as well as the sheet. */
+  --r-tl: var(--radius-paper);
+  --r-tr: var(--radius-paper);
+  --r-br: var(--radius-paper);
+  --r-bl: var(--radius-paper);
+  border-radius: var(--r-tl) var(--r-tr) var(--r-br) var(--r-bl);
+}
+
+.paper__card {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(var(--card-dim));
+  will-change: transform;
+}
+
+/* Two cards are drawn running off one side — the iPad off the right edge of
+   the statistics card, the iPhone off the left of the home card. On a wide
+   screen those sheets run off the page on the same side, so the device leaves
+   the window where it leaves the card. */
+@media (min-width: 960px) {
+  .paper--bleed-right {
+    margin-right: calc(-1 * (var(--page-gutter) + max(0px, (100vw - var(--page-max)) / 2)));
+    --r-tr: 0px;
+    --r-br: 0px;
+  }
+
+  .paper--bleed-left {
+    margin-left: calc(-1 * (var(--page-gutter) + max(0px, (100vw - var(--page-max)) / 2)));
+    --r-tl: 0px;
+    --r-bl: 0px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   5. Store badges as links, and the launch line
+   --------------------------------------------------------------------------- */
+
+.stores {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* The artwork is untouched (styles.css §12 says why); the feedback is a
+   halo around it, never a change to it. */
+a.badge {
+  border-radius: 12px;
+  transition:
+    box-shadow var(--duration-base) var(--easing-standard),
+    opacity var(--duration-fast) var(--easing-standard);
+}
+
+a.badge:hover {
+  box-shadow: 0 10px 28px -12px rgba(20, 19, 18, 0.55);
+}
+
+a.badge:active {
+  opacity: 0.8;
+}
+
+a.badge.badge--google {
+  /* Google's file carries its own clear space; the halo hugs the badge
+     inside it, not the transparent margin round it. */
+  border-radius: 18px;
+}
+
+a.badge.badge--google:hover {
+  box-shadow: none;
+}
+
+a.badge.badge--google:hover img {
+  filter: drop-shadow(0 10px 14px rgba(20, 19, 18, 0.32));
+}
+
+.launch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 8px 16px 8px 12px;
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 8px 20px -14px rgba(20, 19, 18, 0.4);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.005em;
+  transition:
+    box-shadow var(--duration-base) var(--easing-standard),
+    scale var(--duration-fast) var(--easing-standard);
+}
+
+.launch:hover {
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 12px 26px -14px rgba(20, 19, 18, 0.55);
+}
+
+.launch:active {
+  scale: 0.97;
+}
+
+.launch__dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--spark);
+  flex: none;
+}
+
+/* The dot breathes: it is the one thing on the first screen that says
+   «this is new». */
+.launch__dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--spark);
+  animation: ping 2.4s var(--easing-reveal) infinite;
+}
+
+@keyframes ping {
+  0% {
+    scale: 1;
+    opacity: 0.6;
+  }
+  70%,
+  100% {
+    scale: 3.2;
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   6. Hero
+   --------------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  padding-block: clamp(20px, 3vw, 40px) clamp(72px, 8vw, 104px);
+}
+
+.hero__grid {
+  display: grid;
+  gap: clamp(40px, 6vw, 72px);
+  align-items: center;
+}
+
+@media (min-width: 960px) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    min-height: min(calc(100svh - var(--header-h) - 144px), 880px);
+  }
+}
+
+.hero__copy > * + * {
+  margin-top: clamp(20px, 2.4vw, 32px);
+}
+
+.hero__title {
+  font-size: var(--size-hero);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+/* Each line rises out of its own slot. The slot is a little taller than
+   the line so descenders are not clipped on the way. */
+.hero__line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.hero__line > span {
+  display: inline-block;
+}
+
+.scribble {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.scribble__line {
+  position: absolute;
+  left: -3%;
+  width: 106%;
+  height: auto;
+  bottom: -0.16em;
+  overflow: visible;
+}
+
+.scribble__line path {
+  fill: none;
+  stroke: var(--spark);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.hero__lead {
+  font-size: var(--size-lead);
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 30em;
+}
+
+.hero__meta {
+  font-size: var(--size-label);
+  color: var(--ink-3);
+  font-weight: 500;
+}
+
+.hero__art {
+  width: 100%;
+}
+
+/* The sheet the drawing lies on. The drawing is tall — about 1 : 2 — so on a
+   wide screen its height is what limits it, and on a phone its width. */
+.paper--scene {
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 3vw, 40px) clamp(20px, 4vw, 56px);
+}
+
+.paper--scene .scene--violin {
+  width: min(100%, 380px, calc((100svh - 280px) * 859 / 1648));
+}
+
+.paper--scene .scene--piano {
+  width: min(100%, 560px);
+}
+
+.scroll-cue {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: clamp(40px, 6vw, 64px) auto 0;
+  font-size: var(--size-label);
+  font-weight: 500;
+  color: var(--ink-3);
+  transition: color var(--duration-fast) var(--easing-standard);
+}
+
+.scroll-cue:hover {
+  color: var(--ink);
+}
+
+.scroll-cue svg {
+  width: 18px;
+  height: 18px;
+  animation: nudge 2.2s ease-in-out infinite;
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    translate: 0 -2px;
+  }
+  50% {
+    translate: 0 4px;
+  }
+}
+
+@media (min-width: 960px) {
+  .scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(24px, 3vw, 40px);
+    translate: -50% 0;
+    margin: 0;
+  }
+}
+
+/* Entrance. Behind `.js` so a page without script is simply there. */
+.js [data-hero] .hero__line > span {
+  translate: 0 125%;
+  transition: translate 1100ms var(--easing-reveal);
+}
+
+.js [data-hero] .hero__line + .hero__line > span {
+  transition-delay: 90ms;
+}
+
+.js [data-hero].is-ready .hero__line > span {
+  translate: 0 0;
+}
+
+.js [data-hero] .scribble__line path {
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 900ms var(--easing-reveal) 900ms;
+}
+
+.js [data-hero].is-ready .scribble__line path {
+  stroke-dashoffset: 0;
+}
+
+.js [data-hero] [data-enter] {
+  opacity: 0;
+  translate: 0 18px;
+  transition:
+    opacity 800ms var(--easing-reveal),
+    translate 800ms var(--easing-reveal);
+  transition-delay: calc(260ms + var(--i, 0) * 90ms);
+}
+
+.js [data-hero].is-ready [data-enter] {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (min-width: 960px) {
+  .js [data-hero] .scroll-cue[data-enter] {
+    translate: -50% 18px;
+  }
+
+  .js [data-hero].is-ready .scroll-cue[data-enter] {
+    translate: -50% 0;
+  }
+}
+
+.js [data-hero] .paper--scene {
+  opacity: 0;
+  scale: 0.96;
+  transition:
+    opacity 900ms var(--easing-reveal) 120ms,
+    scale 1200ms var(--easing-reveal) 120ms;
+}
+
+.js [data-hero].is-ready .paper--scene {
+  opacity: 1;
+  scale: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   7. Scenes — the drawings, in layers
+   Positions come from assets/media/layers.css, written by the tool that cut
+   the layers. Three movements, each on its own property so none undoes
+   another: `transform` belongs to home.js (parallax), `scale` and `opacity`
+   to the entrance, `translate` and `rotate` on the picture inside to the
+   float.
+   --------------------------------------------------------------------------- */
+
+.scene {
+  position: relative;
+  width: 100%;
+}
+
+.layer {
+  position: absolute;
+  display: block;
+}
+
+.layer > img,
+img.layer {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.layer:not(.layer--girl) {
+  will-change: transform;
+}
+
+.layer:not(.layer--girl):not(.spark) > img {
+  animation: float var(--float, 7s) ease-in-out var(--delay, 0s) infinite alternate;
+}
+
+@keyframes float {
+  from {
+    translate: 0 calc(var(--amp, 8px) * -1);
+    rotate: calc(var(--rot, 2.5deg) * -1);
+  }
+  to {
+    translate: 0 var(--amp, 8px);
+    rotate: var(--rot, 2.5deg);
+  }
+}
+
+/* The sparks flicker from the point they burst out of. */
+.spark > img {
+  transform-origin: var(--origin, 50% 50%);
+  animation: flicker 1.5s ease-in-out var(--delay, 0s) infinite alternate;
+}
+
+@keyframes flicker {
+  from {
+    scale: 0.8;
+    opacity: 0.55;
+  }
+  to {
+    scale: 1.06;
+    opacity: 1;
+  }
+}
+
+/* Entrance: the objects pop in one after another once the drawing is there. */
+.js [data-scene-host] .layer:not(.layer--girl) {
+  opacity: 0;
+  scale: 0.4;
+  transition:
+    opacity 500ms var(--easing-reveal),
+    scale 900ms var(--easing-pop);
+  transition-delay: calc(520ms + var(--i, 0) * 70ms);
+}
+
+.js [data-scene-host].is-ready .layer:not(.layer--girl) {
+  opacity: 1;
+  scale: 1;
+}
+
+.js [data-scene-host] .layer--girl {
+  opacity: 0;
+  transition: opacity 900ms var(--easing-reveal) 200ms;
+}
+
+.js [data-scene-host].is-ready .layer--girl {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   8. Before and after — the objects fly into the session
+   Live only when home.js adds `.is-live`: the track becomes tall, the stage
+   sticks, and the scroll inside the track is the timeline. Otherwise both
+   halves of the story stand one after the other.
+   --------------------------------------------------------------------------- */
+
+.converge {
+  position: relative;
+}
+
+.converge__stage {
+  padding-block: var(--section-gap) 0;
+}
+
+.converge__grid {
+  display: grid;
+  gap: clamp(40px, 5vw, 72px);
+  align-items: center;
+}
+
+@media (min-width: 960px) {
+  .converge__grid {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  }
+}
+
+.converge__copy {
+  display: grid;
+  gap: var(--space-xxl);
+}
+
+.converge__state > * + * {
+  margin-top: var(--space-lg);
+}
+
+.converge__title {
+  font-size: clamp(32px, 4.2vw, 58px);
+  font-weight: 760;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.converge__text {
+  font-size: var(--size-lead);
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 26em;
+}
+
+/* The tablet in the middle of its own box, and the six objects round it,
+   placed by their centres as shares of that box — so on any screen they keep
+   to the box and never to the tablet's edge. */
+.converge__scene {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1.08;
+}
+
+.converge__device {
+  position: relative;
+  height: 78%;
+  aspect-ratio: 1396 / 2000;
+}
+
+.converge__tablet {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 34px 40px rgba(20, 19, 18, 0.28));
+}
+
+/* A ring round each tool the object turns into. */
+.converge__slot {
+  position: absolute;
+  left: var(--sx);
+  top: var(--sy);
+  width: 9.5%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 2px var(--spark),
+    0 0 26px 6px var(--spark-glow);
+  opacity: var(--lit, 0);
+  scale: calc(0.5 + var(--lit, 0) * 0.5);
+  pointer-events: none;
+}
+
+.converge__slot--clock {
+  width: 34%;
+  aspect-ratio: 2.4;
+  border-radius: 24px;
+}
+
+.converge__doodles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.doodle {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w, 17%);
+  translate: -50% -50%;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.doodle__art {
+  display: block;
+  width: 100%;
+  will-change: transform, opacity;
+}
+
+.doodle__art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: var(--doodle-filter);
+  animation: float var(--float, 7s) ease-in-out var(--delay, 0s) infinite alternate;
+}
+
+.doodle__label {
+  font-size: var(--size-caption);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.doodle--tuner {
+  --x: 11%;
+  --y: 15%;
+  --float: 7s;
+  --delay: -1s;
+}
+
+.doodle--recorder {
+  --x: 9%;
+  --y: 51%;
+  --float: 6.5s;
+  --delay: -2s;
+}
+
+.doodle--stopwatch {
+  --x: 12%;
+  --y: 86%;
+  --w: 13%;
+  --float: 6s;
+  --delay: -3s;
+}
+
+.doodle--metronome {
+  --x: 89%;
+  --y: 14%;
+  --float: 8s;
+  --delay: -4s;
+}
+
+.doodle--notes {
+  --x: 91%;
+  --y: 50%;
+  --w: 15%;
+  --float: 7.5s;
+  --delay: -5s;
+}
+
+.doodle--diary {
+  --x: 88%;
+  --y: 86%;
+  --float: 7s;
+  --delay: -6s;
+}
+
+/* A phone is narrow: the tablet shrinks to half the width and the objects
+   close in on both sides of it. */
+@media (max-width: 959px) {
+  .converge__scene {
+    aspect-ratio: 0.92;
+  }
+
+  .converge__device {
+    height: 64%;
+  }
+
+  .doodle {
+    --w: 21%;
+  }
+
+  .doodle--stopwatch {
+    --w: 16%;
+  }
+
+  .doodle--notes {
+    --w: 18%;
+  }
+
+  /* Two short lines rather than one that runs off the screen. */
+  .doodle__label {
+    width: 9ch;
+    font-size: 10px;
+    letter-spacing: 0.03em;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+  }
+}
+
+/* --- live --- */
+
+.converge.is-live .converge__track {
+  height: 260svh;
+}
+
+.converge.is-live .converge__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: var(--header-h) 0 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.converge.is-live .converge__stage > .wrap {
+  width: 100%;
+}
+
+.converge.is-live .converge__copy {
+  grid-template-areas: 'state';
+}
+
+.converge.is-live .converge__state {
+  grid-area: state;
+  align-self: center;
+}
+
+/* The hand-over, written by home.js: --k-out takes the old words away, then
+   --k-in brings the new ones, each 0 → 1. */
+.converge.is-live .converge__state--before {
+  opacity: calc(1 - var(--k-out, 0));
+  translate: 0 calc(var(--k-out, 0) * -28px);
+}
+
+.converge.is-live .converge__state--after {
+  opacity: var(--k-in, 0);
+  translate: 0 calc((1 - var(--k-in, 0)) * 28px);
+}
+
+/* Inside the stuck stage the box is sized by the height left over, not by
+   its width, so the whole scene is always on screen at once — and it is
+   never much wider than tall, or on a tablet the six would drift away from
+   the device they are flying into. */
+.converge.is-live .converge__scene {
+  --scene-h: min(74svh, 760px);
+  aspect-ratio: auto;
+  height: var(--scene-h);
+  width: min(100%, var(--scene-h) * 1.12);
+  justify-self: center;
+}
+
+@media (max-width: 959px) {
+  .converge.is-live .converge__grid {
+    gap: clamp(8px, 2svh, 24px);
+    align-content: center;
+  }
+
+  .converge.is-live .converge__scene {
+    --scene-h: min(50svh, 460px);
+  }
+
+  .converge.is-live .converge__title {
+    font-size: clamp(30px, 8vw, 44px);
+  }
+
+  .converge.is-live .converge__text {
+    font-size: 16px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   9. The session — six chapters of one evening
+   --------------------------------------------------------------------------- */
+
+.session {
+  padding-block: var(--section-gap);
+}
+
+.session__head .section-title {
+  max-width: 15em;
+  margin-top: var(--space-lg);
+}
+
+.chapters {
+  display: grid;
+  gap: var(--section-gap);
+  margin-top: var(--section-gap);
+}
+
+.chapter {
+  display: grid;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+@media (min-width: 960px) {
+  .chapter {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+
+  .chapter--flip {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+
+  .chapter--flip .chapter__copy {
+    order: 2;
+  }
+
+  .chapter--wide {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .chapter--wide .chapter__copy {
+    max-width: 40em;
+  }
+}
+
+.chapter__copy > * + * {
+  margin-top: var(--space-lg);
+}
+
+/* The time of day, set like the app's own clock, with the object from the
+   drawing that belongs to that moment beside it. */
+.chapter__when {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.chapter__doodle {
+  width: clamp(52px, 5vw, 68px);
+  flex: none;
+}
+
+.chapter__doodle img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: var(--doodle-filter);
+  animation: float 6s ease-in-out infinite alternate;
+}
+
+.chapter__time {
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--ink-2);
+}
+
+.chapter__title {
+  font-size: var(--size-chapter);
+  font-weight: 740;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.chapter__text {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 30em;
+  text-wrap: pretty;
+}
+
+.chapter__facts {
+  display: grid;
+  gap: var(--space-sm);
+  padding-top: var(--space-sm);
+}
+
+.chapter__facts li {
+  position: relative;
+  padding-left: var(--space-xl);
+  font-size: var(--size-label);
+  line-height: 22px;
+  font-weight: 500;
+}
+
+.chapter__facts li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--spark);
+}
+
+/* No width of its own: a grid item stretches to its track, and stretches
+   further by exactly the negative margin of a sheet that runs off the page. */
+.chapter__media {
+  min-width: 0;
+}
+
+/* The second chapter: the drawn card and the working copy side by side. */
+.chapter__stage {
+  display: grid;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+
+@media (min-width: 960px) {
+  .chapter__stage {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   10. The working copy of a session
+   Drawn in the app's dark palette whatever the page's theme, because it is
+   a screen of the app and the app's session sheet is what it copies.
+   Values from src/ui/theme/colors.ts (darkColors).
+   --------------------------------------------------------------------------- */
+
+.playground {
+  justify-self: center;
+  width: min(100%, 400px);
+}
+
+.pg {
+  --pg-canvas: #191817;
+  --pg-subtle: #211f1e;
+  --pg-elevated: #2a2826;
+  --pg-text: #edebe8;
+  --pg-text-2: #a8a39c;
+  --pg-muted: #928e88;
+  --pg-track: #3a3734;
+  --pg-success: #83b891;
+  --pg-error: #e2897b;
+
+  display: grid;
+  /* One column that may shrink below its content: the waveform's sixty bars
+     must never be what decides how wide the screen is. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-md);
+  padding: 14px;
+  border-radius: 36px;
+  background: var(--pg-canvas);
+  color: var(--pg-text);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 0 0 6px #0f0e0d,
+    0 0 0 7px rgba(255, 255, 255, 0.08),
+    var(--shadow-device);
+  font-size: var(--size-label);
+}
+
+.pg__ask {
+  padding: 14px;
+  border-radius: 18px;
+  background: var(--pg-subtle);
+}
+
+.pg__question {
+  font-size: var(--size-label);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.pg__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pg__chip {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--pg-elevated);
+  color: var(--pg-text);
+  font: inherit;
+  font-size: var(--size-caption);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--easing-standard),
+    color var(--duration-base) var(--easing-standard),
+    scale var(--duration-fast) var(--easing-standard);
+}
+
+.pg__chip:hover {
+  background: #34312e;
+}
+
+.pg__chip:active {
+  scale: 0.95;
+}
+
+.pg__chip[aria-checked='true'] {
+  background: var(--pg-text);
+  color: var(--pg-canvas);
+}
+
+.pg__clock {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 18px 0 14px;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.pg__clock:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.pg__time {
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.pg__state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pg-success);
+  transition: color var(--duration-base) var(--easing-standard);
+}
+
+.pg__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.pg__clock[data-paused='true'] .pg__state {
+  color: var(--pg-muted);
+}
+
+.pg__panel {
+  position: relative;
+  min-height: 252px;
+  padding: 16px;
+  border-radius: 22px;
+  background: var(--pg-subtle);
+  overflow: hidden;
+}
+
+/* A panel arrives from below and the old one is simply gone under it — the
+   app's own tool panel does the same. */
+.pg__view {
+  animation: view-in var(--duration-slow) var(--easing-enter);
+}
+
+@keyframes view-in {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.pg__tools {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  padding: 2px;
+}
+
+.pg__tool {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 8px 2px 6px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: var(--pg-text-2);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--easing-standard),
+    color var(--duration-base) var(--easing-standard),
+    scale var(--duration-fast) var(--easing-standard);
+}
+
+.pg__tool svg {
+  width: 22px;
+  height: 22px;
+}
+
+.pg__tool:hover {
+  color: var(--pg-text);
+}
+
+.pg__tool:active {
+  scale: 0.92;
+}
+
+.pg__tool[aria-selected='true'] {
+  background: var(--pg-elevated);
+  color: var(--pg-text);
+}
+
+.pg__round {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border: 0;
+  border-radius: 50%;
+  background: var(--pg-elevated);
+  color: var(--pg-text);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    scale var(--duration-fast) var(--easing-standard);
+}
+
+.pg__round:hover {
+  background: #34312e;
+}
+
+.pg__round:active {
+  scale: 0.9;
+}
+
+.pg__round svg {
+  width: 20px;
+  height: 20px;
+}
+
+.pg__button {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--pg-elevated);
+  color: var(--pg-text);
+  font: inherit;
+  font-size: var(--size-label);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    scale var(--duration-fast) var(--easing-standard);
+}
+
+.pg__button:hover {
+  background: #34312e;
+}
+
+.pg__button:active {
+  scale: 0.96;
+}
+
+.pg__button--solid {
+  background: var(--pg-text);
+  color: var(--pg-canvas);
+}
+
+.pg__button--solid:hover {
+  background: #ffffff;
+}
+
+.pg :focus-visible {
+  outline-color: var(--pg-text);
+}
+
+/* Metronome */
+.metro,
+.rec,
+.notes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.metro {
+  gap: 14px;
+}
+
+.metro__tempo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metro__read {
+  display: grid;
+  justify-items: center;
+}
+
+.metro__bpm {
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.metro__name {
+  font-size: var(--size-caption);
+  color: var(--pg-text-2);
+  margin-top: 4px;
+}
+
+/* The ruler: a range input drawn as the app's tick scale. The value is
+   dragged, so it follows the finger and does not ease. */
+.metro__ruler {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  background:
+    repeating-linear-gradient(to right, var(--pg-track) 0 1px, transparent 1px 10px) 0 60% / 100%
+      10px no-repeat,
+    repeating-linear-gradient(to right, var(--pg-muted) 0 1px, transparent 1px 50px) 0 50% / 100%
+      16px no-repeat;
+  cursor: ew-resize;
+  border-radius: 4px;
+}
+
+.metro__ruler::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 4px;
+  height: 28px;
+  border-radius: 2px;
+  background: var(--pg-text);
+  box-shadow: 0 0 0 4px rgba(237, 235, 232, 0.12);
+}
+
+.metro__ruler::-moz-range-thumb {
+  width: 4px;
+  height: 28px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--pg-text);
+}
+
+.metro__beats {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.metro__beat {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--pg-track);
+  transition:
+    background-color 90ms linear,
+    scale 90ms linear;
+}
+
+.metro__beat--strong {
+  width: 14px;
+  height: 14px;
+  margin-top: -2px;
+}
+
+/* A beat lights on the click and lets go on its own; the click is the
+   clock, not the transition. */
+.metro__beat.is-on {
+  background: var(--pg-text);
+  scale: 1.35;
+  transition: none;
+}
+
+.metro__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+/* Tuner */
+.tuner {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.tuner__note {
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.tuner__note sub {
+  font-size: 0.36em;
+  font-weight: 500;
+  vertical-align: baseline;
+  color: var(--pg-text-2);
+}
+
+.tuner__scale {
+  position: relative;
+  width: 100%;
+  height: 34px;
+  margin-top: 4px;
+  background:
+    linear-gradient(var(--pg-text-2), var(--pg-text-2)) 50% 50% / 2px 22px no-repeat,
+    repeating-linear-gradient(to right, var(--pg-track) 0 1px, transparent 1px 10%) 0 50% / 100%
+      12px no-repeat;
+}
+
+.tuner__needle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% + var(--cents, 0) * 1%);
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--pg-text);
+  transition: background-color var(--duration-base) var(--easing-standard);
+}
+
+.tuner[data-in-tune='true'] .tuner__needle {
+  background: var(--pg-success);
+}
+
+.tuner__cents {
+  font-size: var(--size-label);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--duration-base) var(--easing-standard);
+}
+
+.tuner[data-in-tune='true'] .tuner__cents {
+  color: var(--pg-success);
+}
+
+.tuner__hz {
+  font-size: var(--size-caption);
+  color: var(--pg-text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.tuner__strings {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.tuner__strings .pg__chip {
+  min-width: 40px;
+}
+
+.tuner__ref {
+  font-size: 11px;
+  color: var(--pg-muted);
+  margin-top: 4px;
+}
+
+/* Recording */
+.rec {
+  gap: 12px;
+}
+
+.rec__strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 6px 6px 12px;
+  border-radius: 16px;
+  background: var(--pg-elevated);
+}
+
+.rec__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pg-error);
+  flex: none;
+  animation: rec-blink 1.2s ease-in-out infinite alternate;
+}
+
+.rec[data-paused='true'] .rec__dot {
+  animation: none;
+  background: var(--pg-muted);
+}
+
+@keyframes rec-blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.35;
+  }
+}
+
+.rec__time {
+  font-size: var(--size-label);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  min-width: 3.2em;
+}
+
+.rec__wave {
+  flex: 1;
+  min-width: 0; /* or sixty bars hold it open and push the buttons out */
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.rec__wave i {
+  flex: none;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--pg-text-2);
+  height: calc(var(--h, 0.2) * 100%);
+}
+
+.rec .pg__round {
+  width: 36px;
+  height: 36px;
+  background: #34312e;
+}
+
+.rec__resume {
+  display: none;
+}
+
+.rec[data-paused='true'] .rec__resume {
+  display: block;
+  color: var(--pg-error);
+}
+
+.rec[data-paused='true'] .rec__pause {
+  display: none;
+}
+
+.rec__marks {
+  display: grid;
+  gap: 6px;
+}
+
+.rec__marks li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--size-label);
+  animation: view-in var(--duration-slow) var(--easing-enter);
+}
+
+.rec__marks time {
+  font-variant-numeric: tabular-nums;
+  color: var(--pg-text-2);
+}
+
+.rec__marks li::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mark, var(--pg-text-2));
+}
+
+.rec__hint {
+  font-size: var(--size-caption);
+  color: var(--pg-muted);
+}
+
+/* Notes */
+.notes {
+  gap: 12px;
+}
+
+.notes__list {
+  display: grid;
+}
+
+.notes__list li {
+  display: grid;
+  gap: 2px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  animation: view-in var(--duration-slow) var(--easing-enter);
+}
+
+.notes__list li:last-child {
+  border-bottom: 0;
+}
+
+.notes__list span {
+  font-size: var(--size-label);
+  font-weight: 500;
+}
+
+.notes__list small {
+  font-size: var(--size-caption);
+  color: var(--pg-text-2);
+}
+
+/* The caret while a note is being written. */
+.notes__list .is-typing span::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--pg-text);
+  animation: rec-blink 0.6s steps(2) infinite;
+}
+
+.notes .pg__button {
+  justify-self: start;
+}
+
+/* Countdown */
+.countdown {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding-top: 10px;
+}
+
+.countdown__time {
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown__ring {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--pg-track);
+  overflow: hidden;
+}
+
+.countdown__ring span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--pg-text);
+  transform-origin: 0 50%;
+  transform: scaleX(var(--left, 1));
+}
+
+/* ---------------------------------------------------------------------------
+   11. Pencil marks on the score
+   --------------------------------------------------------------------------- */
+
+/* The page and its marks, as one box: the box is what drifts and unfolds,
+   so a mark can never slide off its note. */
+.score {
+  position: relative;
+}
+
+.score img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.score__marks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.mark {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 9;
+  /* Each mark is drawn by its own pencil: the dash is as long as the path,
+     and sliding it off draws the line. home.js writes --len per path. */
+  stroke-dasharray: var(--len, 2000);
+  stroke-dashoffset: 0;
+}
+
+.mark--highlight {
+  stroke: #ffd400;
+  stroke-width: 42;
+  stroke-linecap: butt;
+  opacity: 0.45;
+  mix-blend-mode: multiply;
+}
+
+.mark--violet {
+  stroke: #6e3bc0;
+}
+
+.mark--blue {
+  stroke: #1a5cc8;
+  stroke-width: 7;
+}
+
+.mark--green {
+  stroke: #1f7a46;
+}
+
+.mark--ink {
+  stroke: var(--pencil, #d8352a);
+  stroke-width: 10;
+  transition: stroke var(--duration-base) var(--easing-standard);
+}
+
+.js [data-score] .mark {
+  stroke-dashoffset: var(--len, 2000);
+}
+
+.js [data-score].is-drawn .mark {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 900ms cubic-bezier(0.45, 0, 0.2, 1) var(--d, 0ms);
+}
+
+.pencils {
+  padding-top: var(--space-sm);
+}
+
+.pencils__label {
+  font-size: var(--size-caption);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: var(--space-md);
+}
+
+.pencils__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+/* The swatch is the pencil's own colour: `--ink` is set inline on each
+   button and shadows the page's ink on purpose. */
+.pencils__row button {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  cursor: pointer;
+  transition: scale var(--duration-fast) var(--easing-standard);
+}
+
+.pencils__row button::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  opacity: 0;
+  scale: 0.8;
+  transition:
+    opacity var(--duration-base) var(--easing-standard),
+    scale var(--duration-base) var(--easing-standard);
+}
+
+.pencils__row button[aria-checked='true']::after {
+  opacity: 1;
+  scale: 1;
+}
+
+.pencils__row button:hover {
+  scale: 1.08;
+}
+
+.pencils__row button:active {
+  scale: 0.92;
+}
+
+/* ---------------------------------------------------------------------------
+   12. Tasks you can tick, and numbers that count
+   --------------------------------------------------------------------------- */
+
+.tasks {
+  display: grid;
+  gap: 2px;
+  max-width: 26em;
+  padding: var(--space-sm);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.tasks__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.tasks__item:hover {
+  background: var(--line);
+}
+
+.tasks__item input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tasks__box {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  flex: none;
+  border-radius: 6px;
+  border: 1.5px solid var(--ink-3);
+  transition:
+    background-color var(--duration-base) var(--easing-standard),
+    border-color var(--duration-base) var(--easing-standard);
+}
+
+.tasks__box::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 11px;
+  border: solid var(--page);
+  border-width: 0 2px 2px 0;
+  rotate: 45deg;
+  scale: 0;
+  transition: scale var(--duration-base) var(--easing-pop);
+}
+
+.tasks__item input:checked + .tasks__box {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.tasks__item input:checked + .tasks__box::after {
+  scale: 1;
+}
+
+.tasks__item input:focus-visible + .tasks__box {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.tasks__text {
+  display: grid;
+  font-size: var(--size-label);
+  line-height: 21px;
+  font-weight: 500;
+  background: linear-gradient(currentColor, currentColor) 0 10px / 0 1.5px no-repeat;
+  transition:
+    color var(--duration-base) var(--easing-standard),
+    background-size var(--duration-slow) var(--easing-standard);
+}
+
+/* Crossed out by a line that draws across, not by a style that snaps. */
+.tasks__item input:checked ~ .tasks__text {
+  color: var(--ink-3);
+  background-size: 100% 1.5px;
+}
+
+.tasks__due {
+  font-size: var(--size-caption);
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+.tasks__due--late {
+  color: #9e3f32;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .tasks__due--late {
+    color: #e2897b;
+  }
+}
+
+:root[data-theme='dark'] .tasks__due--late {
+  color: #e2897b;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  gap: var(--space-xl) clamp(24px, 4vw, 48px);
+  padding-top: var(--space-md);
+}
+
+.stats__item dt {
+  font-size: var(--size-caption);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.stats__item dd {
+  margin: var(--space-xs) 0 0;
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (max-width: 479px) {
+  .stats {
+    grid-template-columns: repeat(2, auto);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   13. Light and dark — one line across three phones
+   --------------------------------------------------------------------------- */
+
+.themes {
+  padding-block: 0 var(--section-gap);
+}
+
+.themes__head {
+  max-width: 40em;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.themes__head > * + * {
+  margin-top: var(--space-lg);
+}
+
+.themes__head .section-lead {
+  margin-inline: auto;
+}
+
+.split {
+  --pos: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: clamp(16px, 4vw, 56px);
+  margin-top: clamp(48px, 6vw, 80px);
+  padding-block: var(--space-xl);
+  touch-action: pan-y;
+  cursor: ew-resize;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.split__phone {
+  position: relative;
+  width: min(30%, 320px);
+  margin: 0;
+  filter: drop-shadow(0 30px 34px rgba(20, 19, 18, 0.3));
+}
+
+.split__phone img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+/* Left of the line is light, right of it is dark; --cut is how much of this
+   phone lies left of the line, written by home.js. */
+.split__dark {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 0 calc(var(--cut, 0.5) * 100%));
+}
+
+.split__line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  width: 2px;
+  margin-left: -1px;
+  background: var(--spark);
+  box-shadow: 0 0 18px var(--spark-glow);
+  pointer-events: none;
+}
+
+.split__handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max-content;
+  translate: -50% -50%;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: var(--radius-full);
+  background: var(--spark);
+  color: #fff;
+  box-shadow: 0 8px 24px -8px rgba(254, 116, 11, 0.8);
+  transition: scale var(--duration-fast) var(--easing-standard);
+}
+
+.split__handle svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+.split.is-dragging .split__handle {
+  scale: 1.1;
+}
+
+/* The range is there for the keyboard and for a screen reader; the pointer
+   is handled on the whole stage. It is invisible but not hidden. */
+.split__range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.split:has(.split__range:focus-visible) .split__handle {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+@media (max-width: 719px) {
+  .split__phone {
+    width: min(64%, 280px);
+  }
+
+  .split__phone:not(:first-child) {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   14. Features
+   --------------------------------------------------------------------------- */
+
+.features {
+  padding-block: var(--section-gap);
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.features__head .section-title {
+  max-width: 16em;
+  margin-top: var(--space-lg);
+}
+
+.feature-grid {
+  display: grid;
+  gap: var(--space-lg);
+  margin-top: clamp(48px, 6vw, 72px);
+}
+
+@media (min-width: 600px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .feature-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.feature-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(24px, 2.6vw, 32px);
+  border-radius: 24px;
+  background: var(--page);
+  box-shadow: 0 0 0 1px var(--line);
+  transition:
+    translate var(--duration-base) var(--easing-standard),
+    box-shadow var(--duration-base) var(--easing-standard);
+}
+
+/* A lamp follows the pointer across the card. Its position is the pointer's
+   and does not ease; it comes on and goes out by fading where it stands. */
+.feature-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 0%),
+    rgba(254, 116, 11, 0.12),
+    transparent 62%
+  );
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--easing-standard);
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+.feature-card:hover {
+  translate: 0 -4px;
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 24px 40px -28px rgba(20, 19, 18, 0.45);
+}
+
+.feature-card__icon {
+  width: 28px;
+  height: 28px;
+  color: var(--ink);
+  margin-bottom: var(--space-xl);
+  transition: color var(--duration-base) var(--easing-standard);
+}
+
+.feature-card:hover .feature-card__icon {
+  color: var(--spark);
+}
+
+.feature-card h3 {
+  font-size: 19px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-sm);
+}
+
+.feature-card p {
+  font-size: var(--size-label);
+  line-height: 23px;
+  color: var(--ink-2);
+}
+
+/* ---------------------------------------------------------------------------
+   15. Finale — the second drawing, and the download
+   --------------------------------------------------------------------------- */
+
+.finale {
+  padding-block: var(--section-gap) calc(var(--section-gap) * 0.6);
+}
+
+.finale__grid {
+  display: grid;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: center;
+}
+
+@media (min-width: 960px) {
+  .finale__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.finale__copy > * + * {
+  margin-top: clamp(20px, 2.4vw, 28px);
+}
+
+.finale__title {
+  font-size: clamp(42px, 6.2vw, 92px);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+/* ---------------------------------------------------------------------------
+   16. Support
+   --------------------------------------------------------------------------- */
+
+.support {
+  padding-block: 0 var(--section-gap);
+}
+
+.support__card {
+  display: grid;
+  gap: var(--space-xl);
+  align-items: end;
+  padding: clamp(28px, 5vw, 56px);
+  border-radius: var(--radius-paper);
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+@media (min-width: 860px) {
+  .support__card {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.support__card > div > * + * {
+  margin-top: var(--space-md);
+}
+
+.support__title {
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 740;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.support__text {
+  color: var(--ink-2);
+  line-height: 1.6;
+  max-width: 34em;
+}
+
+.home .btn--primary {
+  background: var(--ink);
+  color: var(--page);
+}
+
+.home .btn--primary:hover {
+  background: var(--ink-2);
+}
+
+/* ---------------------------------------------------------------------------
+   17. Footer
+   --------------------------------------------------------------------------- */
+
+.home .site-footer {
+  background: var(--page);
+  border-top-color: var(--line);
+}
+
+.home .site-footer a {
+  color: var(--ink-2);
+}
+
+.home .site-footer a:hover,
+.home .site-footer .brand {
+  color: var(--ink);
+}
+
+.home .site-footer__legal {
+  color: var(--ink-3);
+}
+
+/* ---------------------------------------------------------------------------
+   18. Reveal on scroll
+   One movement for every block that arrives: up and in. A picture on its
+   sheet unfolds instead — the sheet opens from its middle and the picture
+   settles inside it.
+   --------------------------------------------------------------------------- */
+
+.js [data-reveal] {
+  opacity: 0;
+  translate: 0 40px;
+  transition:
+    opacity var(--duration-reveal) var(--easing-reveal),
+    translate var(--duration-reveal) var(--easing-reveal);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+.js [data-reveal].is-in {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.js [data-reveal='unfold'] {
+  opacity: 1;
+  translate: none;
+  clip-path: inset(9% 7% 9% 7% round var(--r-tl) var(--r-tr) var(--r-br) var(--r-bl));
+  transition: clip-path 1200ms var(--easing-reveal);
+}
+
+.js [data-reveal='unfold'].is-in {
+  clip-path: inset(0 0 0 0 round var(--r-tl) var(--r-tr) var(--r-br) var(--r-bl));
+}
+
+.js [data-reveal='unfold'] .paper__card {
+  scale: 1.16;
+  transition: scale 1600ms var(--easing-reveal);
+}
+
+.js [data-reveal='unfold'].is-in .paper__card {
+  scale: 1.04;
+}
+
+/* The finale's sheet is not a .paper itself — its child is. */
+.finale__art[data-reveal='unfold'] {
+  --r-tl: var(--radius-paper);
+  --r-tr: var(--radius-paper);
+  --r-br: var(--radius-paper);
+  --r-bl: var(--radius-paper);
+}
+
+/* ---------------------------------------------------------------------------
+   19. Reduced motion
+   styles.css already shortens every transition and animation to nothing;
+   this takes the page's own movement away entirely, so what is left is a
+   still page with everything in place.
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .home *,
+  .home *::before,
+  .home *::after {
+    animation: none !important;
+  }
+
+  .js [data-reveal],
+  .js [data-reveal='unfold'],
+  .js [data-hero] [data-enter],
+  .js [data-hero] .paper--scene,
+  .js [data-scene-host] .layer,
+  .js [data-hero] .hero__line > span {
+    opacity: 1;
+    translate: none;
+    scale: none;
+    clip-path: none;
+  }
+
+  .js [data-reveal='unfold'] .paper__card {
+    scale: none;
+  }
+
+  .js [data-hero] .scribble__line path,
+  .js [data-score] .mark {
+    stroke-dashoffset: 0;
+  }
+}
