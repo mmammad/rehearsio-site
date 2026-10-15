@@ -532,6 +532,9 @@
         bpmText.textContent = bpm;
         nameText.textContent = nameOf(bpm);
         ruler.value = bpm;
+        // The tool row shows what each tool is set to, as in the app.
+        var shown = pg.querySelector('[data-value="metronome"]');
+        if (shown) shown.textContent = bpm;
       }
 
       function load() {
@@ -855,6 +858,8 @@
         var r = remaining();
         timeText.textContent = mmss(Math.ceil(r));
         bar.style.setProperty('--left', (r / TOTAL).toFixed(4));
+        var shown = pg.querySelector('[data-value="countdown"]');
+        if (shown) shown.textContent = mmss(Math.ceil(r)).replace(/^0/, '');
         if (r <= 0 && since) {
           clearInterval(tick);
           since = null;

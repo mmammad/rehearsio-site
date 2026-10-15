@@ -738,17 +738,36 @@ img.layer {
   aspect-ratio: 1.08;
 }
 
+/* The iPad: one even bezel, 3.6 % of the width on every side, round a
+   1668 × 2420 screen — so the whole is 1788 × 2540, which is the box's ratio.
+   Space grey, an edge that catches the light, and the screen's own rounding. */
 .converge__device {
   position: relative;
   height: 78%;
-  aspect-ratio: 1396 / 2000;
+  aspect-ratio: 1788 / 2540;
+  padding: 3.36%;
+  border-radius: 7.5% / 5.3%;
+  background: linear-gradient(160deg, #3b3a38, #1c1b1a 45%, #0f0e0e);
+  box-shadow:
+    0 0 0 1.5px #5b5955 inset,
+    0 0 0 3px #1a1918 inset,
+    0 34px 60px -24px rgba(20, 19, 18, 0.5);
 }
 
+.converge__screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1668 / 2420;
+}
+
+/* The screen's rounding is on the picture, not on its box, so the glowing
+   rings round the tools at its edge are not cut off. */
 .converge__tablet {
   display: block;
   width: 100%;
-  height: auto;
-  filter: drop-shadow(0 34px 40px rgba(20, 19, 18, 0.28));
+  height: 100%;
+  border-radius: 4.6% / 3.2%;
+  background: #191817;
 }
 
 /* A ring round each tool the object turns into. */
@@ -756,7 +775,7 @@ img.layer {
   position: absolute;
   left: var(--sx);
   top: var(--sy);
-  width: 9.5%;
+  width: 8%;
   aspect-ratio: 1;
   translate: -50% -50%;
   border-radius: 50%;
@@ -769,8 +788,8 @@ img.layer {
 }
 
 .converge__slot--clock {
-  width: 34%;
-  aspect-ratio: 2.4;
+  width: 38%;
+  aspect-ratio: 2.1;
   border-radius: 24px;
 }
 
@@ -965,7 +984,7 @@ img.layer {
 }
 
 /* ---------------------------------------------------------------------------
-   9. The session — six chapters of one evening
+   9. A closer look — six parts of the app, one section each
    --------------------------------------------------------------------------- */
 
 .session {
@@ -1036,12 +1055,13 @@ img.layer {
   animation: float 6s ease-in-out infinite alternate;
 }
 
+/* The name of the part of the app the section is about. */
 .chapter__time {
-  font-size: clamp(22px, 2.2vw, 28px);
-  font-weight: 300;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-  color: var(--ink-2);
+  font-size: var(--size-caption);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
 }
 
 .chapter__title {
@@ -1106,53 +1126,87 @@ img.layer {
 
 /* ---------------------------------------------------------------------------
    10. The working copy of a session
-   Drawn in the app's dark palette whatever the page's theme, because it is
-   a screen of the app and the app's session sheet is what it copies.
-   Values from src/ui/theme/colors.ts (darkColors).
+   A screen of the app, so it is drawn at the app's own size: the copy is as
+   wide as an iPhone (390 pt) and every size below is the app's point size —
+   type 17 / 15 / 13 (docs/10-design-tokens.md § 4), a 22 pt icon row with the
+   tool's value under it and no names, bare − and + round the tempo, quiet
+   wide buttons with a solid one beside them. Colours are the app's dark
+   palette (src/ui/theme/colors.ts, darkColors) whatever the page's theme,
+   because the session sheet copied here is dark in the screenshots.
    --------------------------------------------------------------------------- */
 
 .playground {
   justify-self: center;
-  width: min(100%, 400px);
+  width: min(100%, 390px);
 }
 
 .pg {
   --pg-canvas: #191817;
   --pg-subtle: #211f1e;
   --pg-elevated: #2a2826;
+  --pg-raised: #34312e;
   --pg-text: #edebe8;
   --pg-text-2: #a8a39c;
   --pg-muted: #928e88;
   --pg-track: #3a3734;
+  --pg-line: #4a4642;
   --pg-success: #83b891;
   --pg-error: #e2897b;
 
   display: grid;
-  /* One column that may shrink below its content: the waveform's sixty bars
-     must never be what decides how wide the screen is. */
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-md);
-  padding: 14px;
-  border-radius: 36px;
+  gap: 12px;
+  padding: 14px 14px 10px;
+  border-radius: 46px;
   background: var(--pg-canvas);
   color: var(--pg-text);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-    0 0 0 6px #0f0e0d,
-    0 0 0 7px rgba(255, 255, 255, 0.08),
+    0 0 0 7px #0d0c0c,
+    0 0 0 8px #3b3a38,
     var(--shadow-device);
-  font-size: var(--size-label);
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.pg__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px 0;
+}
+
+.pg__pill {
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background: var(--pg-elevated);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+}
+
+.pg__pill--light {
+  background: var(--pg-text);
+  color: var(--pg-canvas);
+}
+
+.pg__grabber {
+  display: block;
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--pg-line);
 }
 
 .pg__ask {
-  padding: 14px;
-  border-radius: 18px;
+  padding: 12px;
+  border-radius: 12px;
   background: var(--pg-subtle);
 }
 
 .pg__question {
-  font-size: var(--size-label);
+  font-size: 17px;
   font-weight: 600;
+  line-height: 22px;
   margin-bottom: 10px;
 }
 
@@ -1163,42 +1217,43 @@ img.layer {
 }
 
 .pg__chip {
-  min-height: 32px;
+  height: 32px;
   padding: 0 12px;
-  border: 0;
+  border: 1px solid var(--pg-track);
   border-radius: var(--radius-full);
-  background: var(--pg-elevated);
+  background: transparent;
   color: var(--pg-text);
   font: inherit;
-  font-size: var(--size-caption);
-  font-weight: 500;
+  font-size: 15px;
   cursor: pointer;
   transition:
     background-color var(--duration-base) var(--easing-standard),
+    border-color var(--duration-base) var(--easing-standard),
     color var(--duration-base) var(--easing-standard),
     scale var(--duration-fast) var(--easing-standard);
 }
 
 .pg__chip:hover {
-  background: #34312e;
+  background: var(--pg-elevated);
 }
 
 .pg__chip:active {
-  scale: 0.95;
+  scale: 0.96;
 }
 
 .pg__chip[aria-checked='true'] {
   background: var(--pg-text);
+  border-color: var(--pg-text);
   color: var(--pg-canvas);
 }
 
 .pg__clock {
   display: grid;
   justify-items: center;
-  gap: 4px;
-  padding: 18px 0 14px;
+  gap: 2px;
+  padding: 10px 0 6px;
   border: 0;
-  border-radius: 18px;
+  border-radius: 12px;
   background: transparent;
   color: inherit;
   font: inherit;
@@ -1206,25 +1261,29 @@ img.layer {
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
-.pg__clock:hover {
-  background: rgba(255, 255, 255, 0.03);
+/* Only where there is a real pointer: on a touch screen a hover stays stuck
+   after the tap and the clock would sit on a grey patch. */
+@media (hover: hover) {
+  .pg__clock:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
 }
 
 .pg__time {
   font-size: 64px;
   font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
 }
 
 .pg__state {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 11px;
+  gap: 5px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--pg-success);
   transition: color var(--duration-base) var(--easing-standard);
@@ -1241,16 +1300,24 @@ img.layer {
   color: var(--pg-muted);
 }
 
+/* The tool's sheet: elevated, its own grabber, the app's 16 pt corner. */
 .pg__panel {
   position: relative;
-  min-height: 252px;
-  padding: 16px;
-  border-radius: 22px;
-  background: var(--pg-subtle);
+  display: grid;
+  align-content: start;
+  min-height: 236px;
+  padding: 8px 12px 12px;
+  border-radius: 16px;
+  background: var(--pg-elevated);
   overflow: hidden;
 }
 
-/* A panel arrives from below and the old one is simply gone under it — the
+.pg__panel > .pg__grabber {
+  justify-self: center;
+  margin-bottom: 8px;
+}
+
+/* A sheet arrives from below and the old one is simply gone under it — the
    app's own tool panel does the same. */
 .pg__view {
   animation: view-in var(--duration-slow) var(--easing-enter);
@@ -1267,59 +1334,45 @@ img.layer {
   }
 }
 
-.pg__tools {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 4px;
-  padding: 2px;
-}
-
-.pg__tool {
-  display: grid;
-  justify-items: center;
-  gap: 4px;
-  padding: 8px 2px 6px;
-  border: 0;
-  border-radius: 14px;
-  background: transparent;
-  color: var(--pg-text-2);
-  font: inherit;
-  font-size: 10px;
-  font-weight: 500;
-  cursor: pointer;
-  transition:
-    background-color var(--duration-base) var(--easing-standard),
-    color var(--duration-base) var(--easing-standard),
-    scale var(--duration-fast) var(--easing-standard);
-}
-
-.pg__tool svg {
-  width: 22px;
-  height: 22px;
-}
-
-.pg__tool:hover {
-  color: var(--pg-text);
-}
-
-.pg__tool:active {
-  scale: 0.92;
-}
-
-.pg__tool[aria-selected='true'] {
-  background: var(--pg-elevated);
-  color: var(--pg-text);
-}
-
-.pg__round {
+/* Bare − and +, as in the app: a glyph, not a button shape. */
+.pg__glyph {
   display: grid;
   place-items: center;
   width: 40px;
   height: 40px;
-  flex: none;
+  padding: 0;
   border: 0;
-  border-radius: 50%;
-  background: var(--pg-elevated);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--pg-text);
+  font: inherit;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    scale var(--duration-fast) var(--easing-standard);
+}
+
+.pg__glyph:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.pg__glyph:active {
+  scale: 0.9;
+}
+
+.pg__square {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: var(--pg-track);
   color: var(--pg-text);
   cursor: pointer;
   transition:
@@ -1327,29 +1380,36 @@ img.layer {
     scale var(--duration-fast) var(--easing-standard);
 }
 
-.pg__round:hover {
-  background: #34312e;
+.pg__square:hover {
+  background: var(--pg-line);
 }
 
-.pg__round:active {
-  scale: 0.9;
+.pg__square:active {
+  scale: 0.92;
 }
 
-.pg__round svg {
-  width: 20px;
-  height: 20px;
+.pg__square svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* A quiet wide button and a solid one beside it — Tap and Stop in the app. */
+.pg__actions {
+  display: flex;
+  gap: 8px;
 }
 
 .pg__button {
-  min-height: 40px;
-  padding: 0 18px;
+  flex: 1;
+  height: 36px;
+  padding: 0 14px;
   border: 0;
-  border-radius: var(--radius-full);
-  background: var(--pg-elevated);
+  border-radius: 10px;
+  background: var(--pg-raised);
   color: var(--pg-text);
   font: inherit;
-  font-size: var(--size-label);
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
   transition:
     background-color var(--duration-fast) var(--easing-standard),
@@ -1357,16 +1417,18 @@ img.layer {
 }
 
 .pg__button:hover {
-  background: #34312e;
+  background: var(--pg-track);
 }
 
 .pg__button:active {
-  scale: 0.96;
+  scale: 0.97;
 }
 
 .pg__button--solid {
+  flex: 0 0 34%;
   background: var(--pg-text);
   color: var(--pg-canvas);
+  font-weight: 600;
 }
 
 .pg__button--solid:hover {
@@ -1377,22 +1439,72 @@ img.layer {
   outline-color: var(--pg-text);
 }
 
-/* Metronome */
-.metro,
-.rec,
-.notes {
+/* The row of tools: 22 pt icons, the value under each, no names. */
+.pg__tools {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  padding: 2px 0 0;
 }
 
+.pg__tool {
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  padding: 6px 0 4px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--pg-text-2);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    color var(--duration-base) var(--easing-standard),
+    scale var(--duration-fast) var(--easing-standard);
+}
+
+.pg__tool svg {
+  width: 22px;
+  height: 22px;
+}
+
+.pg__tool:hover,
+.pg__tool[aria-selected='true'] {
+  color: var(--pg-text);
+}
+
+.pg__tool:active {
+  scale: 0.92;
+}
+
+.pg__value {
+  min-height: 16px;
+  font-size: 12px;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Metronome */
 .metro {
-  gap: 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.metro__meter {
+  justify-self: start;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--pg-raised);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
 }
 
 .metro__tempo {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: -6px;
 }
 
 .metro__read {
@@ -1401,16 +1513,16 @@ img.layer {
 }
 
 .metro__bpm {
-  font-size: 48px;
-  font-weight: 600;
-  line-height: 1;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 44px;
   font-variant-numeric: tabular-nums;
 }
 
 .metro__name {
-  font-size: var(--size-caption);
+  font-size: 11px;
+  line-height: 14px;
   color: var(--pg-text-2);
-  margin-top: 4px;
 }
 
 /* The ruler: a range input drawn as the app's tick scale. The value is
@@ -1419,88 +1531,85 @@ img.layer {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 28px;
+  height: 22px;
   margin: 0;
   background:
-    repeating-linear-gradient(to right, var(--pg-track) 0 1px, transparent 1px 10px) 0 60% / 100%
-      10px no-repeat,
-    repeating-linear-gradient(to right, var(--pg-muted) 0 1px, transparent 1px 50px) 0 50% / 100%
-      16px no-repeat;
+    repeating-linear-gradient(to right, var(--pg-line) 0 1px, transparent 1px 8px) 0 50% / 100% 8px
+      no-repeat,
+    repeating-linear-gradient(to right, var(--pg-muted) 0 1px, transparent 1px 40px) 0 50% / 100%
+      14px no-repeat;
   cursor: ew-resize;
-  border-radius: 4px;
 }
 
 .metro__ruler::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 4px;
-  height: 28px;
-  border-radius: 2px;
+  width: 2px;
+  height: 22px;
+  border-radius: 1px;
   background: var(--pg-text);
-  box-shadow: 0 0 0 4px rgba(237, 235, 232, 0.12);
 }
 
 .metro__ruler::-moz-range-thumb {
-  width: 4px;
-  height: 28px;
+  width: 2px;
+  height: 22px;
   border: 0;
-  border-radius: 2px;
+  border-radius: 1px;
   background: var(--pg-text);
 }
 
 .metro__beats {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 14px;
+  height: 14px;
 }
 
 .metro__beat {
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: var(--pg-track);
+  background: var(--pg-line);
   transition:
     background-color 90ms linear,
     scale 90ms linear;
 }
 
 .metro__beat--strong {
-  width: 14px;
-  height: 14px;
-  margin-top: -2px;
+  width: 11px;
+  height: 11px;
 }
 
 /* A beat lights on the click and lets go on its own; the click is the
    clock, not the transition. */
 .metro__beat.is-on {
   background: var(--pg-text);
-  scale: 1.35;
+  scale: 1.3;
   transition: none;
 }
 
-.metro__actions {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-sm);
+.metro .pg__actions {
+  margin-top: 4px;
 }
 
 /* Tuner */
 .tuner {
   display: grid;
   justify-items: center;
-  gap: 6px;
+  gap: 2px;
   text-align: center;
 }
 
 .tuner__note {
-  font-size: 56px;
+  font-size: 44px;
   font-weight: 600;
-  line-height: 1;
+  line-height: 48px;
 }
 
 .tuner__note sub {
-  font-size: 0.36em;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 400;
   vertical-align: baseline;
   color: var(--pg-text-2);
 }
@@ -1508,12 +1617,12 @@ img.layer {
 .tuner__scale {
   position: relative;
   width: 100%;
-  height: 34px;
-  margin-top: 4px;
+  height: 22px;
+  margin-top: 2px;
   background:
-    linear-gradient(var(--pg-text-2), var(--pg-text-2)) 50% 50% / 2px 22px no-repeat,
-    repeating-linear-gradient(to right, var(--pg-track) 0 1px, transparent 1px 10%) 0 50% / 100%
-      12px no-repeat;
+    linear-gradient(var(--pg-text-2), var(--pg-text-2)) 50% 50% / 1px 14px no-repeat,
+    repeating-linear-gradient(to right, var(--pg-line) 0 1px, transparent 1px 10%) 0 50% / 100% 8px
+      no-repeat;
 }
 
 .tuner__needle {
@@ -1521,9 +1630,9 @@ img.layer {
   top: 0;
   bottom: 0;
   left: calc(50% + var(--cents, 0) * 1%);
-  width: 3px;
-  margin-left: -1.5px;
-  border-radius: 2px;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 1px;
   background: var(--pg-text);
   transition: background-color var(--duration-base) var(--easing-standard);
 }
@@ -1532,8 +1641,18 @@ img.layer {
   background: var(--pg-success);
 }
 
+.tuner__ends {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--pg-muted);
+}
+
 .tuner__cents {
-  font-size: var(--size-label);
+  margin-top: 2px;
+  font-size: 15px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   transition: color var(--duration-base) var(--easing-standard);
@@ -1544,44 +1663,69 @@ img.layer {
 }
 
 .tuner__hz {
-  font-size: var(--size-caption);
+  font-size: 12px;
+  line-height: 16px;
   color: var(--pg-text-2);
   font-variant-numeric: tabular-nums;
 }
 
+/* The strings are letters, as in the app: the chosen one is bright. */
 .tuner__strings {
   display: flex;
-  gap: 6px;
+  justify-content: space-around;
+  width: 100%;
   margin-top: 6px;
 }
 
-.tuner__strings .pg__chip {
-  min-width: 40px;
+.tuner__strings button {
+  width: 40px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--pg-muted);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  transition:
+    color var(--duration-base) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard);
+}
+
+.tuner__strings button:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.tuner__strings button[aria-checked='true'] {
+  color: var(--pg-text);
+  font-weight: 600;
 }
 
 .tuner__ref {
   font-size: 11px;
+  line-height: 14px;
   color: var(--pg-muted);
-  margin-top: 4px;
 }
 
 /* Recording */
 .rec {
-  gap: 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
 }
 
 .rec__strip {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 6px 6px 12px;
-  border-radius: 16px;
-  background: var(--pg-elevated);
+  gap: 6px;
+  padding: 6px 6px 6px 10px;
+  border-radius: 12px;
+  background: var(--pg-raised);
 }
 
 .rec__dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--pg-error);
   flex: none;
@@ -1603,16 +1747,16 @@ img.layer {
 }
 
 .rec__time {
-  font-size: var(--size-label);
+  font-size: 15px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-  min-width: 3.2em;
+  min-width: 3.1em;
 }
 
 .rec__wave {
   flex: 1;
   min-width: 0; /* or sixty bars hold it open and push the buttons out */
-  height: 28px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -1626,12 +1770,6 @@ img.layer {
   border-radius: 1px;
   background: var(--pg-text-2);
   height: calc(var(--h, 0.2) * 100%);
-}
-
-.rec .pg__round {
-  width: 36px;
-  height: 36px;
-  background: #34312e;
 }
 
 .rec__resume {
@@ -1649,14 +1787,15 @@ img.layer {
 
 .rec__marks {
   display: grid;
-  gap: 6px;
+  gap: 4px;
 }
 
 .rec__marks li {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: var(--size-label);
+  gap: 8px;
+  font-size: 13px;
+  line-height: 18px;
   animation: view-in var(--duration-slow) var(--easing-enter);
 }
 
@@ -1667,20 +1806,23 @@ img.layer {
 
 .rec__marks li::before {
   content: '';
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--mark, var(--pg-text-2));
 }
 
 .rec__hint {
-  font-size: var(--size-caption);
+  font-size: 13px;
+  line-height: 18px;
   color: var(--pg-muted);
 }
 
 /* Notes */
 .notes {
-  gap: 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
 }
 
 .notes__list {
@@ -1689,8 +1831,8 @@ img.layer {
 
 .notes__list li {
   display: grid;
-  gap: 2px;
-  padding: 10px 0;
+  gap: 1px;
+  padding: 8px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   animation: view-in var(--duration-slow) var(--easing-enter);
 }
@@ -1700,12 +1842,13 @@ img.layer {
 }
 
 .notes__list span {
-  font-size: var(--size-label);
+  font-size: 15px;
   font-weight: 500;
 }
 
 .notes__list small {
-  font-size: var(--size-caption);
+  font-size: 12px;
+  line-height: 16px;
   color: var(--pg-text-2);
 }
 
@@ -1721,29 +1864,25 @@ img.layer {
   animation: rec-blink 0.6s steps(2) infinite;
 }
 
-.notes .pg__button {
-  justify-self: start;
-}
-
 /* Countdown */
 .countdown {
   display: grid;
-  justify-items: center;
-  gap: 16px;
-  padding-top: 10px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  padding-top: 6px;
 }
 
 .countdown__time {
-  font-size: 56px;
+  justify-self: center;
+  font-size: 44px;
   font-weight: 600;
-  line-height: 1;
+  line-height: 48px;
   font-variant-numeric: tabular-nums;
 }
 
 .countdown__ring {
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
+  height: 4px;
+  border-radius: 2px;
   background: var(--pg-track);
   overflow: hidden;
 }
@@ -1755,6 +1894,10 @@ img.layer {
   background: var(--pg-text);
   transform-origin: 0 50%;
   transform: scaleX(var(--left, 1));
+}
+
+.countdown .pg__button--solid {
+  flex: 1;
 }
 
 /* ---------------------------------------------------------------------------

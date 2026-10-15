@@ -70,7 +70,7 @@
         </a>
 
         <nav class="nav" aria-label="Primary">
-          <a class="nav__link nav__link--wide" href="#story">Story</a>
+          <a class="nav__link nav__link--wide" href="#tour">Tour</a>
           <a class="nav__link nav__link--wide" href="#features">Features</a>
           <a class="nav__link nav__link--wide" href="#support">Support</a>
         </nav>
@@ -193,7 +193,7 @@
                   src="assets/media/violin-girl.webp"
                   width="859"
                   height="1648"
-                  alt="A drawing of a girl in a striped jumper playing the violin. In front of her a music stand holds a tablet showing the Rehearsio mark."
+                  alt="A drawing of a violinist practising. In front of her a music stand holds a tablet showing the Rehearsio mark."
                   fetchpriority="high"
                 />
                 <span
@@ -267,8 +267,8 @@
           </div>
         </div>
 
-        <a class="scroll-cue" href="#story" data-enter style="--i: 4">
-          <span>Follow one practice session</span>
+        <a class="scroll-cue" href="#tour" data-enter style="--i: 4">
+          <span>See how it works</span>
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -287,9 +287,9 @@
            Before and after. Six of the objects from the drawings stand round
            a real session screen; scrolling flies each one into the tool it
            became. Without script, or with reduced motion, the two halves of
-           the story simply stand one after the other and nothing flies.
+           the scene simply stand one after the other and nothing flies.
            =================================================================== -->
-      <section class="converge" id="story" aria-labelledby="converge-title" data-converge>
+      <section class="converge" id="tour" aria-labelledby="converge-title" data-converge>
         <div class="converge__track">
           <div class="converge__stage">
             <div class="wrap converge__grid">
@@ -313,54 +313,58 @@
               </div>
 
               <div class="converge__scene">
+                <!-- An iPad drawn in CSS round a plain screenshot of a running
+                     session, so the screen can change without a new frame. -->
                 <div class="converge__device">
-                  <img
-                    class="converge__tablet"
-                    src="assets/media/tablet-timer-dark-1100.webp"
-                    srcset="
-                      assets/media/tablet-timer-dark-640.webp   640w,
-                      assets/media/tablet-timer-dark-1100.webp 1100w
-                    "
-                    sizes="(min-width: 960px) 30vw, 50vw"
-                    width="1396"
-                    height="2000"
-                    alt="A practice session in Rehearsio on a tablet: the clock running and five tools along the bottom — countdown, metronome, recorder, notes and tuner."
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <!-- Where each object lands: the five tools in the bottom
-                       row, and the clock for the diary. Measured off the
-                       render by tools/build-site-media's numbers. -->
-                  <span
-                    class="converge__slot"
-                    data-slot="countdown"
-                    style="--sx: 12.03%; --sy: 90.15%"
-                  ></span>
-                  <span
-                    class="converge__slot"
-                    data-slot="metronome"
-                    style="--sx: 31.23%; --sy: 90.15%"
-                  ></span>
-                  <span
-                    class="converge__slot"
-                    data-slot="record"
-                    style="--sx: 50.07%; --sy: 90.15%"
-                  ></span>
-                  <span
-                    class="converge__slot"
-                    data-slot="note"
-                    style="--sx: 69.05%; --sy: 90.15%"
-                  ></span>
-                  <span
-                    class="converge__slot"
-                    data-slot="tuner"
-                    style="--sx: 88.11%; --sy: 90.15%"
-                  ></span>
-                  <span
-                    class="converge__slot converge__slot--clock"
-                    data-slot="clock"
-                    style="--sx: 50.07%; --sy: 48.3%"
-                  ></span>
+                  <div class="converge__screen">
+                    <img
+                      class="converge__tablet"
+                      src="assets/media/ipad-practice-dark-1000.webp"
+                      srcset="
+                        assets/media/ipad-practice-dark-600.webp   600w,
+                        assets/media/ipad-practice-dark-1000.webp 1000w
+                      "
+                      sizes="(min-width: 960px) 30vw, 50vw"
+                      width="1668"
+                      height="2420"
+                      alt="A practice session in Rehearsio on an iPad: the clock at 41:51, a recording running, and five tools along the bottom: countdown, metronome, recorder, notes and tuner."
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <!-- Where each object lands: the five tools in the bottom
+                         row, and the clock for the diary, as shares of the
+                         screenshot. -->
+                    <span
+                      class="converge__slot"
+                      data-slot="countdown"
+                      style="--sx: 6%; --sy: 94.8%"
+                    ></span>
+                    <span
+                      class="converge__slot"
+                      data-slot="metronome"
+                      style="--sx: 28.1%; --sy: 94.8%"
+                    ></span>
+                    <span
+                      class="converge__slot"
+                      data-slot="record"
+                      style="--sx: 50%; --sy: 94.8%"
+                    ></span>
+                    <span
+                      class="converge__slot"
+                      data-slot="note"
+                      style="--sx: 71.9%; --sy: 94.8%"
+                    ></span>
+                    <span
+                      class="converge__slot"
+                      data-slot="tuner"
+                      style="--sx: 93.9%; --sy: 94.8%"
+                    ></span>
+                    <span
+                      class="converge__slot converge__slot--clock"
+                      data-slot="clock"
+                      style="--sx: 50%; --sy: 49.5%"
+                    ></span>
+                  </div>
                 </div>
 
                 <ul class="converge__doodles" aria-hidden="true">
@@ -420,20 +424,20 @@
       </section>
 
       <!-- ==================================================================
-           One evening at the stand: six chapters, each a moment of her
-           session and the part of the app it happens in.
+           A closer look: six parts of the app, each with the owner's own
+           picture of it.
            =================================================================== -->
       <section class="session" aria-labelledby="session-title">
         <div class="wrap">
           <header class="session__head" data-reveal>
-            <p class="eyebrow">One evening at the stand</p>
+            <p class="eyebrow">A closer look</p>
             <h2 class="section-title" id="session-title">
-              Follow her practice, from the first page to the last bar.
+              Everything a practice needs, from the first page to the last bar.
             </h2>
           </header>
 
           <ol class="chapters">
-            <!-- 18:00 — the library -->
+            <!-- The library -->
             <li class="chapter">
               <div class="chapter__copy" data-reveal>
                 <p class="chapter__when">
@@ -445,13 +449,12 @@
                       alt=""
                       loading="lazy"
                   /></span>
-                  <span class="chapter__time">18:00</span>
+                  <span class="chapter__time">Library</span>
                 </p>
-                <h3 class="chapter__title">She opens the score.</h3>
+                <h3 class="chapter__title">Your scores, on one shelf.</h3>
                 <p class="chapter__text">
-                  Every piece she plays is on one shelf: PDFs brought in from Files, Mail or
-                  anything that can share, tagged by instrument and gathered into programmes — the
-                  graduation exam is one folder. Each score opens on the page she left.
+                  Bring in PDFs from Files, Mail or any app that can share. Tag them by instrument,
+                  gather them into programmes, and every score opens on the page you left.
                 </p>
                 <ul class="chapter__facts">
                   <li>Import from any app that shares</li>
@@ -478,7 +481,7 @@
               </figure>
             </li>
 
-            <!-- 18:02 — the session, and a working copy of it -->
+            <!-- The session, and a working copy of it -->
             <li class="chapter chapter--wide">
               <div class="chapter__copy" data-reveal>
                 <p class="chapter__when">
@@ -490,14 +493,13 @@
                       alt=""
                       loading="lazy"
                   /></span>
-                  <span class="chapter__time">18:02</span>
+                  <span class="chapter__time">Practice session</span>
                 </p>
-                <h3 class="chapter__title">She starts the session.</h3>
+                <h3 class="chapter__title">One tap starts the session.</h3>
                 <p class="chapter__text">
-                  One tap and the clock runs. She tells it what she is working on — warm-up, scales,
-                  etudes or a piece — and five tools wait in a row under her thumb, over the score,
-                  without leaving it. The session below works: start the metronome, tune a string,
-                  drop a mark.
+                  The clock runs, you say what you are working on — warm-up, scales, etudes or a
+                  piece — and five tools wait in a row under your thumb, over the score. The session
+                  on the right works: start the metronome, tune a string, drop a mark.
                 </p>
               </div>
 
@@ -531,6 +533,13 @@
                   aria-label="A working copy of the practice session"
                 >
                   <div class="pg">
+                    <!-- The sheet's own top bar, as in the app; here it does nothing. -->
+                    <div class="pg__bar" aria-hidden="true">
+                      <span class="pg__pill">Cancel</span>
+                      <span class="pg__grabber"></span>
+                      <span class="pg__pill pg__pill--light">Done</span>
+                    </div>
+
                     <div class="pg__ask">
                       <p class="pg__question" id="pg-question">What are you working on?</p>
                       <div class="pg__chips" role="radiogroup" aria-labelledby="pg-question">
@@ -558,6 +567,8 @@
                     </button>
 
                     <div class="pg__panel">
+                      <span class="pg__grabber" aria-hidden="true"></span>
+
                       <!-- Metronome -->
                       <div
                         class="pg__view"
@@ -567,44 +578,27 @@
                         data-view="metronome"
                       >
                         <div class="metro">
+                          <span class="metro__meter" aria-hidden="true">4/4 ♩</span>
                           <div class="metro__tempo">
                             <button
-                              class="pg__round"
+                              class="pg__glyph"
                               type="button"
                               data-bpm-step="-1"
                               aria-label="One beat slower"
                             >
-                              <svg
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                aria-hidden="true"
-                              >
-                                <path d="M6 12h12" />
-                              </svg>
+                              −
                             </button>
                             <p class="metro__read">
                               <span class="metro__bpm" data-bpm>110</span>
                               <span class="metro__name" data-bpm-name>Moderato</span>
                             </p>
                             <button
-                              class="pg__round"
+                              class="pg__glyph"
                               type="button"
                               data-bpm-step="1"
                               aria-label="One beat faster"
                             >
-                              <svg
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                aria-hidden="true"
-                              >
-                                <path d="M6 12h12M12 6v12" />
-                              </svg>
+                              +
                             </button>
                           </div>
                           <input
@@ -622,7 +616,8 @@
                             ><span class="metro__beat"></span><span class="metro__beat"></span
                             ><span class="metro__beat"></span>
                           </div>
-                          <div class="metro__actions">
+                          <div class="pg__actions">
+                            <button class="pg__button" type="button" data-metro-tap>Tap</button>
                             <button
                               class="pg__button pg__button--solid"
                               type="button"
@@ -630,7 +625,6 @@
                             >
                               Start
                             </button>
-                            <button class="pg__button" type="button" data-metro-tap>Tap</button>
                           </div>
                         </div>
                       </div>
@@ -651,11 +645,13 @@
                           <div class="tuner__scale" aria-hidden="true">
                             <span class="tuner__needle" data-tuner-needle></span>
                           </div>
+                          <p class="tuner__ends" aria-hidden="true">
+                            <span>−50</span><span>0</span><span>+50</span>
+                          </p>
                           <p class="tuner__cents" data-tuner-cents aria-live="polite">−12 cents</p>
                           <p class="tuner__hz"><span data-tuner-hz>437.0</span> Hz</p>
                           <div class="tuner__strings" role="radiogroup" aria-label="Violin string">
                             <button
-                              class="pg__chip"
                               type="button"
                               role="radio"
                               aria-checked="false"
@@ -664,7 +660,6 @@
                               G
                             </button>
                             <button
-                              class="pg__chip"
                               type="button"
                               role="radio"
                               aria-checked="false"
@@ -672,17 +667,10 @@
                             >
                               D
                             </button>
-                            <button
-                              class="pg__chip"
-                              type="button"
-                              role="radio"
-                              aria-checked="true"
-                              data-string="A4"
-                            >
+                            <button type="button" role="radio" aria-checked="true" data-string="A4">
                               A
                             </button>
                             <button
-                              class="pg__chip"
                               type="button"
                               role="radio"
                               aria-checked="false"
@@ -692,7 +680,7 @@
                             </button>
                           </div>
                           <p class="tuner__ref">
-                            A 440 · Violin · a demo; the app listens through the microphone
+                            A 440 · Violin · a demo, the app listens to your instrument
                           </p>
                         </div>
                       </div>
@@ -712,7 +700,7 @@
                             <span class="rec__time" data-rec-time>00:00</span>
                             <span class="rec__wave" data-rec-wave aria-hidden="true"></span>
                             <button
-                              class="pg__round"
+                              class="pg__square"
                               type="button"
                               data-rec-mark
                               aria-label="Add a mark"
@@ -721,16 +709,16 @@
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
-                                stroke-width="1.5"
+                                stroke-width="1.6"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 aria-hidden="true"
                               >
-                                <path d="M5 21V4M5 4h11l-2 4 2 4H5" />
+                                <path d="M6 21V4M6 4h11l-2 4 2 4H6" />
                               </svg>
                             </button>
                             <button
-                              class="pg__round"
+                              class="pg__square"
                               type="button"
                               data-rec-toggle
                               aria-label="Pause the recording"
@@ -775,7 +763,11 @@
                             <li><span>Exam programme</span><small>29 Aug</small></li>
                             <li><span>Buy rosin</span><small>4 Sep</small></li>
                           </ul>
-                          <button class="pg__button" type="button" data-notes-add>New note</button>
+                          <div class="pg__actions">
+                            <button class="pg__button" type="button" data-notes-add>
+                              New note
+                            </button>
+                          </div>
                         </div>
                       </div>
 
@@ -793,17 +785,21 @@
                           <div class="countdown__ring" aria-hidden="true">
                             <span data-countdown-bar></span>
                           </div>
-                          <button
-                            class="pg__button pg__button--solid"
-                            type="button"
-                            data-countdown-toggle
-                          >
-                            Start
-                          </button>
+                          <div class="pg__actions">
+                            <button
+                              class="pg__button pg__button--solid"
+                              type="button"
+                              data-countdown-toggle
+                            >
+                              Start
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
 
+                    <!-- The row of tools: an icon and, under it, what the tool
+                         is set to — no names, as in the app. -->
                     <div class="pg__tools" role="tablist" aria-label="Tools">
                       <button
                         class="pg__tool"
@@ -812,6 +808,7 @@
                         id="pg-tab-countdown"
                         aria-controls="pg-countdown"
                         aria-selected="false"
+                        aria-label="Countdown"
                         data-tool="countdown"
                       >
                         <svg
@@ -826,7 +823,7 @@
                           <circle cx="12" cy="14" r="8" />
                           <path d="M10 2h4M12 14v-4" />
                         </svg>
-                        <span>Countdown</span>
+                        <span class="pg__value" data-value="countdown">5:00</span>
                       </button>
                       <button
                         class="pg__tool"
@@ -835,6 +832,7 @@
                         id="pg-tab-metronome"
                         aria-controls="pg-metronome"
                         aria-selected="true"
+                        aria-label="Metronome"
                         data-tool="metronome"
                       >
                         <svg
@@ -850,7 +848,7 @@
                           <path d="M6.5 15h11" />
                           <path d="M12 15 16 6" />
                         </svg>
-                        <span>Metronome</span>
+                        <span class="pg__value" data-value="metronome">110</span>
                       </button>
                       <button
                         class="pg__tool"
@@ -859,6 +857,7 @@
                         id="pg-tab-record"
                         aria-controls="pg-record"
                         aria-selected="false"
+                        aria-label="Recording"
                         data-tool="record"
                       >
                         <svg
@@ -873,7 +872,7 @@
                           <rect x="9" y="2" width="6" height="13" rx="3" />
                           <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3" />
                         </svg>
-                        <span>Recording</span>
+                        <span class="pg__value" data-value="record"></span>
                       </button>
                       <button
                         class="pg__tool"
@@ -882,6 +881,7 @@
                         id="pg-tab-note"
                         aria-controls="pg-note"
                         aria-selected="false"
+                        aria-label="Quick note"
                         data-tool="note"
                       >
                         <svg
@@ -896,7 +896,7 @@
                           <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
                           <path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8" />
                         </svg>
-                        <span>Quick note</span>
+                        <span class="pg__value" data-value="note"></span>
                       </button>
                       <button
                         class="pg__tool"
@@ -905,6 +905,7 @@
                         id="pg-tab-tuner"
                         aria-controls="pg-tuner"
                         aria-selected="false"
+                        aria-label="Tuner"
                         data-tool="tuner"
                       >
                         <svg
@@ -918,7 +919,7 @@
                         >
                           <path d="M8 2v7a4 4 0 0 0 8 0V2M12 13v9" />
                         </svg>
-                        <span>Tuner</span>
+                        <span class="pg__value" data-value="tuner"></span>
                       </button>
                     </div>
                   </div>
@@ -926,7 +927,7 @@
               </div>
             </li>
 
-            <!-- 18:20 — pencil marks -->
+            <!-- Pencil marks -->
             <li class="chapter chapter--flip">
               <div class="chapter__copy" data-reveal>
                 <p class="chapter__when">
@@ -938,13 +939,13 @@
                       alt=""
                       loading="lazy"
                   /></span>
-                  <span class="chapter__time">18:20</span>
+                  <span class="chapter__time">Pencil marks</span>
                 </p>
-                <h3 class="chapter__title">She circles the bar she keeps missing.</h3>
+                <h3 class="chapter__title">Write on the page, like on paper.</h3>
                 <p class="chapter__text">
                   Six pencils and a highlighter, straight onto the page: a fingering, a breath, the
                   fast run marked in yellow, a ring round the bar that keeps going wrong. The marks
-                  belong to the score, so tomorrow they are still there.
+                  belong to the score, so they are still there tomorrow.
                 </p>
                 <div class="pencils">
                   <p class="pencils__label" id="pencils-label">Pick a pencil</p>
@@ -1053,7 +1054,7 @@
               </figure>
             </li>
 
-            <!-- 18:40 — listening back -->
+            <!-- Recording -->
             <li class="chapter">
               <div class="chapter__copy" data-reveal>
                 <p class="chapter__when">
@@ -1065,13 +1066,13 @@
                       alt=""
                       loading="lazy"
                   /></span>
-                  <span class="chapter__time">18:40</span>
+                  <span class="chapter__time">Recording</span>
                 </p>
-                <h3 class="chapter__title">She listens back.</h3>
+                <h3 class="chapter__title">Hear how it really sounded.</h3>
                 <p class="chapter__text">
-                  The recorder ran the whole time. Every take stays with the session it came from;
-                  she plays it at half speed, jumps from mark to mark — went well, didn't work — and
-                  reads how long she spent on what.
+                  Record the run-through and play it back at half speed. Every take stays with the
+                  session it came from, and the marks you dropped — went well, didn't work — take
+                  you straight to the bar.
                 </p>
                 <ul class="chapter__facts">
                   <li>Playback at 0.5×, 0.75× and 1×</li>
@@ -1098,7 +1099,7 @@
               </figure>
             </li>
 
-            <!-- 18:45 — tomorrow -->
+            <!-- Tasks and notes -->
             <li class="chapter chapter--flip">
               <div class="chapter__copy" data-reveal>
                 <p class="chapter__when">
@@ -1110,12 +1111,12 @@
                       alt=""
                       loading="lazy"
                   /></span>
-                  <span class="chapter__time">18:45</span>
+                  <span class="chapter__time">Tasks and notes</span>
                 </p>
-                <h3 class="chapter__title">She leaves a note for tomorrow.</h3>
+                <h3 class="chapter__title">Tomorrow starts where today stopped.</h3>
                 <p class="chapter__text">
-                  A task with a day on it, a note she will find again, and today's goal — filled.
-                  Tomorrow starts where this evening stopped.
+                  Tasks with a day on them, notes you will find again, and a daily goal that fills
+                  as you play.
                 </p>
                 <ul class="tasks" aria-label="Tasks">
                   <li>
@@ -1167,7 +1168,7 @@
               </figure>
             </li>
 
-            <!-- Sunday — statistics -->
+            <!-- Statistics -->
             <li class="chapter">
               <div class="chapter__copy" data-reveal>
                 <p class="chapter__when">
@@ -1179,9 +1180,9 @@
                       alt=""
                       loading="lazy"
                   /></span>
-                  <span class="chapter__time">Sunday</span>
+                  <span class="chapter__time">Statistics</span>
                 </p>
-                <h3 class="chapter__title">She looks back on the week.</h3>
+                <h3 class="chapter__title">See the hours add up.</h3>
                 <p class="chapter__text">
                   Minutes per piece, days in a row, a calendar that fills in green. On a week that
                   felt slow, it shows the hours were there.
@@ -1542,7 +1543,7 @@
       </section>
 
       <!-- ==================================================================
-           The end of the story, and the download. The second drawing, cut
+           The end of the page, and the download. The second drawing, cut
            the same way as the first.
            =================================================================== -->
       <section class="finale" id="download" aria-labelledby="finale-title" data-scene-host>
@@ -1555,7 +1556,7 @@
                   src="assets/media/piano-girl.webp"
                   width="999"
                   height="1413"
-                  alt="A drawing of the same girl, now at a piano, playing from a tablet on the music rest that shows the Rehearsio mark."
+                  alt="A drawing of a pianist practising from a tablet on the music rest that shows the Rehearsio mark."
                   loading="lazy"
                   decoding="async"
                 />
