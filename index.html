@@ -31,6 +31,30 @@
     <meta property="og:image:alt" content="Rehearsio — now on the App Store and Google Play" />
     <meta name="twitter:card" content="summary_large_image" />
 
+    <!-- What a search engine reads about the app itself: a free mobile app, on
+         both stores. Shown as a richer result where the engine supports it. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "name": "Rehearsio",
+        "alternateName": "Rehearsio: Music practice tool",
+        "url": "https://rehearsio.com/",
+        "description": "A practice app for musicians: sheet music, pencil marks, a metronome, a tuner, a recorder and a practice log, together in one session.",
+        "applicationCategory": "MusicApplication",
+        "operatingSystem": "iOS, iPadOS, Android",
+        "image": "https://rehearsio.com/assets/og.jpg",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+        "installUrl": [
+          "https://apps.apple.com/app/rehearsio/id6809843721",
+          "https://play.google.com/store/apps/details?id=com.rehearsio.app"
+        ],
+        "sameAs": [
+          "https://apps.apple.com/app/rehearsio/id6809843721",
+          "https://play.google.com/store/apps/details?id=com.rehearsio.app"
+        ]
+      }
+    </script>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="home.css" />
@@ -73,6 +97,8 @@
           <a class="nav__link nav__link--wide" href="#tour">Tour</a>
           <a class="nav__link nav__link--wide" href="#features">Features</a>
           <a class="nav__link nav__link--wide" href="#support">Support</a>
+          <a class="nav__link nav__link--wide" href="privacy.html">Privacy</a>
+          <a class="nav__link nav__link--wide" href="terms.html">Terms</a>
         </nav>
 
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
