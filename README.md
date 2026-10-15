@@ -10,7 +10,7 @@ next to them is what points the domain at it.
 | File | What it is |
 |---|---|
 | `index.html`, `home.css`, `home.js` | The front page: the story of one practice session, the working copy of a session, the store links. `home.*` is loaded by this page only |
-| `privacy.html`, `terms.html`, `impressum.html` | The three legal pages |
+| `privacy.html`, `terms.html`, `impressum.html` | The three legal pages, linked as `/privacy`, `/terms`, `/impressum` — Pages serves the file without its extension; `site.js` keeps `#…` out of the address bar |
 | `styles.css`, `site.js` | Shared by all four: the app's own tokens, the header, the theme switch |
 | `assets/media/` | Every picture on the front page, **generated** — see below |
 | `assets/audio/` | The metronome's two clicks, copied from the app's `assets/audio` |

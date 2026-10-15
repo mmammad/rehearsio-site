@@ -191,4 +191,75 @@
       mark();
     }
   }
+
+  // ---------------------------------------------------------------------------
+  // Clean addresses. The owner wants the address bar to say rehearsio.com and
+  // nothing after it (2026-10-15): no «index.html», no «#features». The pages
+  // link to «/», «/privacy» and so on; what is left is the part after «#»,
+  // which every in-page link adds. So a link to a place on this same page
+  // scrolls there itself and leaves the address alone, and a page opened with
+  // a «#…» from another page goes to its place and then drops the «#…».
+  //
+  // The scroll is the browser's own (`scrollIntoView`): it obeys the
+  // stylesheet's smooth scrolling and its `scroll-padding-top`, so a section
+  // still comes to rest clear of the header, and reduced motion still jumps.
+  // ---------------------------------------------------------------------------
+
+  function targetOf(hash) {
+    if (!hash || hash === '#') return null;
+    try {
+      return document.getElementById(decodeURIComponent(hash.slice(1)));
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function goTo(target) {
+    target.scrollIntoView();
+    // Keyboard focus follows, so «Skip to content» still does its job.
+    if (
+      !target.hasAttribute('tabindex') &&
+      !/^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(target.tagName)
+    ) {
+      target.setAttribute('tabindex', '-1');
+    }
+    target.focus({ preventScroll: true });
+  }
+
+  function dropHash() {
+    if (window.location.hash && window.history && history.replaceState) {
+      history.replaceState(history.state, '', window.location.pathname + window.location.search);
+    }
+  }
+
+  document.addEventListener('click', function (event) {
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    var link = event.target.closest ? event.target.closest('a[href]') : null;
+    if (!link || link.target) return;
+    var url = new URL(link.href, window.location.href);
+    var samePage =
+      url.origin === window.location.origin &&
+      url.pathname.replace(/index\.html$/, '') ===
+        window.location.pathname.replace(/index\.html$/, '');
+    if (!samePage) return;
+    var target = targetOf(url.hash);
+    if (!target) return;
+    event.preventDefault();
+    goTo(target);
+    dropHash();
+  });
+
+  if (window.location.hash) {
+    var arrived = targetOf(window.location.hash);
+    if (arrived) {
+      // After the pictures and the page's own scripts have settled its height.
+      window.addEventListener('load', function () {
+        arrived.scrollIntoView({ behavior: 'auto' });
+        dropHash();
+      });
+    } else {
+      dropHash();
+    }
+  }
 })();
