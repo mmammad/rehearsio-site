@@ -34,7 +34,7 @@
           <span class="brand__name">Rehearsio</span>
         </a>
 
-        <nav class="nav" aria-label="Primary">
+        <nav class="nav" id="site-nav" aria-label="Primary">
           <a class="nav__link nav__link--wide" href="/#tour">Tour</a>
           <a class="nav__link nav__link--wide" href="/#features">Features</a>
           <a class="nav__link nav__link--wide" href="/#support">Support</a>
@@ -74,6 +74,17 @@
           >
             <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
           </svg>
+        </button>
+        <!-- On a phone the links above fold into this button. -->
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Menu"
+          data-menu-toggle
+        >
+          <span aria-hidden="true"></span><span aria-hidden="true"></span>
         </button>
       </div>
     </header>

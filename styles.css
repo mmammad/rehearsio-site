@@ -454,9 +454,103 @@ a {
   background: var(--fill-subtle);
 }
 
-@media (max-width: 519px) {
-  .nav__link--wide {
-    display: none;
+/* The menu on a phone. Below 760 the links do not fit beside the mark, the
+   theme switch and the store button, so the nav folds into a button and opens
+   as a panel under the header. It is the same <nav>, not a copy: one list of
+   links to keep right. site.js opens and closes it. */
+.menu-toggle {
+  display: none;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+/* Only with a real pointer: after a tap a hover would stay stuck on. */
+@media (hover: hover) {
+  .menu-toggle:hover {
+    background: var(--overlay-hover);
+  }
+}
+
+/* Two lines that cross into an X when the menu is open. */
+.menu-toggle span {
+  position: absolute;
+  left: 13px;
+  width: 18px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transition:
+    translate var(--duration-base) var(--easing-standard),
+    rotate var(--duration-base) var(--easing-standard);
+}
+
+.menu-toggle span:first-child {
+  top: 18px;
+}
+
+.menu-toggle span:last-child {
+  top: 24px;
+}
+
+.menu-toggle[aria-expanded='true'] span:first-child {
+  translate: 0 3px;
+  rotate: 45deg;
+}
+
+.menu-toggle[aria-expanded='true'] span:last-child {
+  translate: 0 -3px;
+  rotate: -45deg;
+}
+
+@media (max-width: 759px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--space-sm) var(--page-gutter) var(--space-lg);
+    background: var(--menu-bg, var(--bg-canvas));
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-popover);
+    opacity: 0;
+    translate: 0 -8px;
+    visibility: hidden;
+    transition:
+      opacity var(--duration-base) var(--easing-exit),
+      translate var(--duration-base) var(--easing-exit),
+      visibility 0s linear var(--duration-base);
+  }
+
+  .site-header[data-menu='open'] .nav {
+    opacity: 1;
+    translate: 0 0;
+    visibility: visible;
+    transition:
+      opacity var(--duration-base) var(--easing-enter),
+      translate var(--duration-base) var(--easing-enter),
+      visibility 0s;
+  }
+
+  .nav .nav__link {
+    display: block;
+    padding: var(--space-md) var(--space-sm);
+    font-size: var(--size-body);
   }
 }
 
@@ -1276,4 +1370,21 @@ a {
    single line, and it should sit closer than a chip would. */
 .doc__head--plain h1 {
   margin-block: var(--space-md) var(--space-sm);
+}
+
+/* A narrow phone (under 420): the mark, the theme switch, the store button and
+   the menu all have to fit, so the gaps close up and nothing gives way to the
+   squeeze — the mark least of all. */
+@media (max-width: 419px) {
+  .site-header__inner {
+    gap: var(--space-xs);
+  }
+
+  .brand {
+    flex: none;
+  }
+
+  .theme-toggle {
+    width: 40px;
+  }
 }

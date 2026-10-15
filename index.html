@@ -95,7 +95,7 @@
           <span class="brand__name">Rehearsio</span>
         </a>
 
-        <nav class="nav" aria-label="Primary">
+        <nav class="nav" id="site-nav" aria-label="Primary">
           <a class="nav__link nav__link--wide" href="#tour">Tour</a>
           <a class="nav__link nav__link--wide" href="#features">Features</a>
           <a class="nav__link nav__link--wide" href="#support">Support</a>
@@ -140,6 +140,17 @@
         <!-- Goes straight to the right store on a phone; on a computer it
              scrolls to the two badges at the end. home.js decides which. -->
         <a class="header-cta" href="#download" data-store-link data-shown="false">Get the app</a>
+        <!-- On a phone the links above fold into this button. -->
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Menu"
+          data-menu-toggle
+        >
+          <span aria-hidden="true"></span><span aria-hidden="true"></span>
+        </button>
       </div>
       <div class="read-progress" aria-hidden="true"><span></span></div>
     </header>

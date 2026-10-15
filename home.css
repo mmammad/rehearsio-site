@@ -170,10 +170,13 @@
   color: var(--ink);
 }
 
-@media (max-width: 759px) {
-  .home .nav__link--wide {
-    display: none;
-  }
+/* The phone menu's panel is the page's colour here, like the header. */
+.home {
+  --menu-bg: var(--page);
+}
+
+.home .nav {
+  border-bottom-color: var(--line);
 }
 
 /* Waits until the badges in the hero have gone by: before that it would be
@@ -2583,5 +2586,12 @@ img.layer {
   .js [data-hero] .scribble__line path,
   .js [data-score] .mark {
     stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 419px) {
+  .header-cta {
+    padding: 0 var(--space-md);
+    font-size: 14px;
   }
 }

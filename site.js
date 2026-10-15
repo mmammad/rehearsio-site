@@ -262,4 +262,48 @@
       dropHash();
     }
   }
+
+  // ---------------------------------------------------------------------------
+  // The phone menu. Below 760 the nav is a panel under the header (styles.css)
+  // and this button opens it. It closes the way a menu is expected to: on a
+  // link, on Escape (focus back to the button), on a tap anywhere outside, and
+  // by itself when the window grows wide enough to show the links again.
+  // ---------------------------------------------------------------------------
+
+  var menuButton = document.querySelector('[data-menu-toggle]');
+  var siteHeader = document.querySelector('.site-header');
+  if (menuButton && siteHeader) {
+    var setMenu = function (open) {
+      siteHeader.setAttribute('data-menu', open ? 'open' : 'closed');
+      menuButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuButton.setAttribute('aria-label', open ? 'Close the menu' : 'Menu');
+    };
+    var menuOpen = function () {
+      return menuButton.getAttribute('aria-expanded') === 'true';
+    };
+
+    menuButton.addEventListener('click', function () {
+      setMenu(!menuOpen());
+    });
+
+    document.addEventListener('click', function (event) {
+      if (!menuOpen()) return;
+      if (event.target.closest && event.target.closest('.nav a')) setMenu(false);
+      else if (!siteHeader.contains(event.target)) setMenu(false);
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && menuOpen()) {
+        setMenu(false);
+        menuButton.focus();
+      }
+    });
+
+    var wide = window.matchMedia('(min-width: 760px)');
+    var onWide = function () {
+      if (wide.matches) setMenu(false);
+    };
+    if (wide.addEventListener) wide.addEventListener('change', onWide);
+    else if (wide.addListener) wide.addListener(onWide);
+  }
 })();
